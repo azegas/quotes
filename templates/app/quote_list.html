@@ -1,0 +1,14 @@
+{% extends "base-list.html" %}
+
+{% block list %}
+
+<h1>Quotes</h1>
+<ul>
+{% for quote in object_list %}
+    <li>{{ quote.text }} - {{ quote.author }}</li>
+{% empty %}
+    <li>No quotes yet.</li>
+{% endfor %}
+</ul>
+
+{% endblock list %}
