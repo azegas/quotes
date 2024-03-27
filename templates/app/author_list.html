@@ -5,7 +5,7 @@
 <h1>Authors</h1>
 <ul>
 {% for author in object_list %}
-    <li>{{ author.name }} {{ author.lastname }} <a href="{% url 'author-detail' pk=author.id %}">Link</a> <a href="{% url "author-delete" pk=author.id %}">Delete</a></li>
+    <li><a href="{% url 'author-detail' pk=author.id %}">{{ author.name }} {{ author.lastname }}</li>
 {% empty %}
     <li>No authors yet.</li>
 {% endfor %}
