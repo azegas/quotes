@@ -26,13 +26,12 @@ Initialize a new Django project and create a dedicated app for handling quotes.
 Design a Quote model in your Django app. Include fields like text, author, and source.
 3. Class-Based Views
 Implement basic CRUD (Create, Read, Update, Delete) functionality using Django's class-based views for your Quote model.
-4. Templates with HTMX
-Start with Read functionality. Use HTMX to fetch and display quotes without a full page reload.
-Gradually, implement Create, Update, and Delete functionalities using HTMX to make asynchronous requests to your Django views.
-
 
 ### Phase 2: Intermediate Challenges
 
+4. Templates with HTMX
+Start with Read functionality. Use HTMX to fetch and display quotes without a full page reload.
+Gradually, implement Create, Update, and Delete functionalities using HTMX to make asynchronous requests to your Django views.
 5. Advanced HTMX
 Explore advanced HTMX features such as lazy loading, infinite scroll, or out-of-band updates to enhance user experience.
 6. Search and Filtering
