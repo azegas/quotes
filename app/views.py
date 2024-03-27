@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from app.models import Quote, Author
 
 
@@ -50,3 +50,14 @@ class QuoteDeleteView(DeleteView):
 class AuthorDeleteView(DeleteView):
     model = Author
     success_url = reverse_lazy('author-list')
+class QuoteUpdateView(UpdateView):
+    model = Quote
+    fields = "__all__"
+    success_url = reverse_lazy('quote-list')
+    template_name = "app/quote_form.html" # default
+
+class AuthorUpdateView(UpdateView):
+    model = Author
+    fields = "__all__"
+    success_url = reverse_lazy('author-list')
+    template_name = "app/author_form.html" # default

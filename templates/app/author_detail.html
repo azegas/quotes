@@ -5,6 +5,7 @@
 <p>Name - {{ author.name }}</p>
 <p>Last name - {{ author.lastname }}</p>
 
+<a href="{% url "author-update" pk=author.id %}">Update</a>
 <a href="{% url "author-delete" pk=author.id %}">Delete</a>
 
 {% endblock detail %}

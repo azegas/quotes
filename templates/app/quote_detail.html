@@ -6,6 +6,7 @@
 <p>Author - {{ quote.author }}</p>
 <p>Date created - {{ quote.date_created }}</p>
 
+<a href="{% url "quote-update" pk=quote.id %}">Update</a>
 <a href="{% url "quote-delete" pk=quote.id %}">Delete</a>
 
 {% endblock detail %}
