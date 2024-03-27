@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -35,17 +36,17 @@ class AuthorDetailView(DetailView):
 class QuoteCreateView(CreateView):
     model = Quote
     fields = ["text", "author", "active",]
-    success_url = '/quote-list'
+    success_url = reverse_lazy('quote-list')
 
 class AuthorCreateView(CreateView):
     model = Author
     fields = ["name", "lastname",]
-    success_url = '/author-list'
+    success_url = reverse_lazy('author-list')
 
 class QuoteDeleteView(DeleteView):
     model = Quote
-    success_url = '/quote-list'
+    success_url = reverse_lazy('quote-list')
 
 class AuthorDeleteView(DeleteView):
     model = Author
-    success_url = '/author-list'
+    success_url = reverse_lazy('author-list')
