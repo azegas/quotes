@@ -1,8 +1,8 @@
 from django.shortcuts import render, HttpResponse
 from django.views import View
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from app.models import Quote, Author
-
 
 
 class Index(View):
@@ -20,4 +20,10 @@ class QuoteListView(ListView):
     model = Quote
 
 class AuthorListView(ListView):
+    model = Author
+
+class QuoteDetailView(DetailView):
+    model = Quote
+
+class AuthorDetailView(DetailView):
     model = Author
