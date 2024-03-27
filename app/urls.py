@@ -3,6 +3,7 @@ from app.views import *
 
 urlpatterns = [
     path("", Index.as_view(), name="index"),
+    path("rdt", RedirectView.as_view(), name="rdt"),
     path("quote-list", QuoteListView.as_view(), name="quote-list"),
     path("author-list", AuthorListView.as_view(), name="author-list"),
     path("quote-list/detail/<int:pk>", QuoteDetailView.as_view(), name="quote-detail"),

@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import RedirectView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -17,6 +18,8 @@ class Index(View):
         print("posted")
         return HttpResponse("someone has posted")
     
+class RedirectView(RedirectView):
+    url = "https://www.youtube.com"
 
 class QuoteListView(ListView):
     model = Quote
