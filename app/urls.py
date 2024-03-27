@@ -9,4 +9,6 @@ urlpatterns = [
     path("author-list/<int:pk>", AuthorDetailView.as_view(), name="author-detail"),
     path("quote-list/create", QuoteCreateView.as_view(), name="quote-create"),
     path("author-list/create", AuthorCreateView.as_view(), name="author-create"),
+    path("quote-list/<int:pk>/delete", QuoteDeleteView.as_view(), name="quote-delete"),
+    path("author-list/<int:pk>/delete", AuthorDeleteView.as_view(), name="author-delete"),
 ]

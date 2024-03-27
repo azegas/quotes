@@ -6,7 +6,7 @@
 <ul>
 {% for quote in object_list %}
     
-    <li>{{ quote.text }} - {{ quote.author }} <a href="{% url "quote-detail" pk=quote.id %}">Link</a></li>
+    <li>"{{ quote.text }}" - {{ quote.author }} <a href="{% url "quote-detail" pk=quote.id %}">View</a> <a href="{% url "quote-delete" pk=quote.id %}">Delete</a></li>
 {% empty %}
     <li>No quotes yet.</li>
 {% endfor %}
