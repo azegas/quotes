@@ -20,15 +20,19 @@ class Index(View):
 
 class QuoteListView(ListView):
     model = Quote
+    template_name = "app/quote_list.html" # default
 
 class AuthorListView(ListView):
     model = Author
+    template_name = "app/author_list.html" # default
 
 class QuoteDetailView(DetailView):
     model = Quote
+    template_name = "app/quote_detail.html" # default
 
 class AuthorDetailView(DetailView):
     model = Author
+    template_name = "app/author_detail.html" # default
 
 # CreateView is very similar to FormView, but use CreateView anyway, it is there for a reason
 # does some additional magic for us, like saving to the db
@@ -37,19 +41,24 @@ class QuoteCreateView(CreateView):
     model = Quote
     fields = ["text", "author", "active",]
     success_url = reverse_lazy('quote-list')
+    template_name = "app/quote_form.html" # default
 
 class AuthorCreateView(CreateView):
     model = Author
     fields = ["name", "lastname",]
     success_url = reverse_lazy('author-list')
+    template_name = "app/author_form.html" # default
 
 class QuoteDeleteView(DeleteView):
     model = Quote
     success_url = reverse_lazy('quote-list')
+    template_name = "app/quote_confirm_delete.html" # default
 
 class AuthorDeleteView(DeleteView):
     model = Author
     success_url = reverse_lazy('author-list')
+    template_name = "app/author_confirm_delete.html" # default
+
 class QuoteUpdateView(UpdateView):
     model = Quote
     fields = "__all__"
