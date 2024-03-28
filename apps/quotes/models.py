@@ -1,14 +1,6 @@
 from django.db import models
 from datetime import datetime
-
-
-class Author(models.Model):
-    name = models.CharField(max_length=50, blank=False)
-    lastname = models.CharField(max_length=50, blank=True)
-
-    def __str__(self):
-        return self.name
-
+from apps.authors.models import Author
 
 class Quote(models.Model):
     text = models.TextField(blank=False, null=False)
