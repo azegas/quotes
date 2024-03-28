@@ -1,5 +1,5 @@
 - [Quotes project](#quotes-project)
-  - [The plan for quotes project](#the-plan-for-quotes-project)
+  - [The plan for this project](#the-plan-for-this-project)
     - [Phase 1: Foundation](#phase-1-foundation)
     - [Phase 2: Intermediate Challenges](#phase-2-intermediate-challenges)
     - [Phase 3: Advanced Challenges](#phase-3-advanced-challenges)
@@ -10,7 +10,7 @@
 
 Fourth and last time me building such site. This time I will focus on utilizing [CBV's](https://docs.djangoproject.com/en/5.0/topics/class-based-views/) and [HTMX](https://htmx.org/).
 
-## The plan for quotes project
+## The plan for this project
 
 - Code Quality: Use tools like flake8 or black to ensure your code is clean and follows Python best practices.
 - Testing: Write tests for your Django models, views, and HTMX interactions. Learning to write good tests is crucial for development.
