@@ -26,6 +26,8 @@ Initialize a new Django project and create a dedicated app for handling quotes.
 Design a Quote model in your Django app. Include fields like text, author, and source.
 3. Class-Based Views
 Implement basic CRUD (Create, Read, Update, Delete) functionality using Django's class-based views for your Quote model.
+4. Basic tests
+5. Basic authentication
 
 ### Phase 2: Intermediate Challenges
 
