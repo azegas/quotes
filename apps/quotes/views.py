@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic.edit import UpdateView
 from apps.quotes.models import Quote
 from apps.quotes.forms import QuoteForm
 
@@ -104,8 +103,39 @@ class QuoteDeleteView(View):
         return HttpResponseRedirect(self.success_url)
 
 
-class QuoteUpdateView(UpdateView):
-    model = Quote
-    fields = "__all__"
+class QuoteUpdateView(View):
+    '''
+    class QuoteUpdateView(UpdateView):
+        model = Quote
+        fields = "__all__"
+        success_url = reverse_lazy('quote-list')
+        template_name = "quotes/quote_form.html" # default
+    '''
+
+    form_class = QuoteForm
+    template_name = "quotes/quote_form.html"
     success_url = reverse_lazy('quote-list')
-    template_name = "quotes/quote_form.html" # default
+
+    def get(self, request, pk):
+        quote = Quote.objects.get(id=pk)
+        form = self.form_class(
+            initial={
+                'text' : quote.text,
+                'author' : quote.author,
+                'active' : quote.active,
+            }
+        )
+        return render(request, self.template_name, {'form' : form})
+    
+    def post(self, request, pk):
+        quote = Quote.objects.get(id=pk)
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            quote.text = form.cleaned_data['text']
+            quote.author = form.cleaned_data['author']
+            quote.active = form.cleaned_data['active']
+            quote.save()
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return render(request, self.template_name, {'form': form})
