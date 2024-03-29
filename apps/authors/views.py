@@ -12,6 +12,10 @@ class AuthorDetailView(DetailView):
     model = Author
     template_name = "authors/author_detail.html" # default
 
+
+# CreateView is very similar to FormView, but use CreateView anyway, it is there for a reason
+# does some additional magic for us, like saving to the db
+# https://www.youtube.com/watch?v=nW-srV0kKKk&list=PLOLrQ9Pn6caxNb9eFZJ6LfY29nZkKmmXT&index=6&ab_channel=VeryAcademy
 class AuthorCreateView(CreateView):
     model = Author
     fields = ["name", "lastname",]
