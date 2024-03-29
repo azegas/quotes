@@ -10,7 +10,7 @@ class Quote(models.Model):
         on_delete= models.SET_NULL, # on delete - set the value to NULL
     )
     active = models.BooleanField(default=False)
-    date_created = models.DateTimeField(default=datetime.now(), editable=False)
+    date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"quote id - {str(self.id)}, author - {str(self.author_id)}"
