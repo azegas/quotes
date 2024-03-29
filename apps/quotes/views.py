@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from apps.quotes.models import Quote
 
@@ -22,9 +21,21 @@ class QuoteListView(View):
         return render(request, self.template_name, {'object_list' : quotes})
 
 
-class QuoteDetailView(DetailView):
-    model = Quote
-    template_name = "quotes/quote_detail.html" # default
+class QuoteDetailView(View):
+    '''
+    gCVB example:
+
+    class QuoteDetailView(DetailView):
+        model = Quote
+        template_name = "quotes/quote_detail.html" # default
+    '''
+
+    template_name = 'quotes/quote_detail.html'
+
+    def get(self, request, pk):
+        quote = Quote.objects.get(id=pk)
+        return render(request, self.template_name, {'quote' : quote})
+
 
 # CreateView is very similar to FormView, but use CreateView anyway, it is there for a reason
 # does some additional magic for us, like saving to the db
