@@ -1,5 +1,4 @@
 from django.db import models
-from datetime import datetime
 from apps.authors.models import Author
 
 class Quote(models.Model):
@@ -13,4 +12,4 @@ class Quote(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"quote id - {str(self.id)}, author - {str(self.author_id)}"
+        return self.text
