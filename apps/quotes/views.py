@@ -1,12 +1,26 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.list import ListView
+from django.views import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from apps.quotes.models import Quote
 
-class QuoteListView(ListView):
-    model = Quote
-    template_name = "quotes/quote_list.html" # default
+
+class QuoteListView(View):
+    '''
+    gCVB example:
+    
+    class QuoteListView(ListView):
+        model = Quote
+        template_name = "quotes/quote_list.html" # default
+    '''
+
+    template_name = 'quotes/quote_list.html'
+
+    def get(self, request):
+        quotes = Quote.objects.all()
+        return render(request, self.template_name, {'object_list' : quotes})
+
 
 class QuoteDetailView(DetailView):
     model = Quote
