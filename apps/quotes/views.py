@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404 # otherwise it throws 500 (Internal Server Error). get_object_or_404 provides a more user-friendly response when a requested object cannot be found, instead of displaying a server error page.
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -33,8 +34,11 @@ class QuoteDetailView(View):
 
     template_name = 'quotes/quote_detail.html'
 
+    def get_object(self, pk):
+        return get_object_or_404(Quote, id=pk)
+    
     def get(self, request, pk):
-        quote = Quote.objects.get(id=pk)
+        quote = self.get_object(pk)
         return render(request, self.template_name, {'quote' : quote})
 
 
@@ -93,12 +97,15 @@ class QuoteDeleteView(View):
     template_name = "quotes/quote_confirm_delete.html"
     success_url = reverse_lazy('quote-list')
 
+    def get_object(self, pk):
+        return get_object_or_404(Quote, id=pk)
+
     def get(self, request, pk):
-        quote = Quote.objects.get(id=pk)
+        quote = self.get_object(pk)
         return render(request, self.template_name, {'object' : quote})
     
     def post(self, request, pk):
-        quote = Quote.objects.get(id=pk)
+        quote = self.get_object(pk)
         quote.delete()
         return HttpResponseRedirect(self.success_url)
 
@@ -116,8 +123,11 @@ class QuoteUpdateView(View):
     template_name = "quotes/quote_form.html"
     success_url = reverse_lazy('quote-list')
 
+    def get_object(self, pk):
+        return get_object_or_404(Quote, id=pk)
+
     def get(self, request, pk):
-        quote = Quote.objects.get(id=pk)
+        quote = self.get_object(pk)
         form = self.form_class(
             initial={
                 'text' : quote.text,
@@ -128,7 +138,7 @@ class QuoteUpdateView(View):
         return render(request, self.template_name, {'form' : form})
     
     def post(self, request, pk):
-        quote = Quote.objects.get(id=pk)
+        quote = self.get_object(pk)
         form = self.form_class(request.POST)
 
         if form.is_valid():
