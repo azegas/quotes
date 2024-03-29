@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic.edit import DeleteView, UpdateView
+from django.views.generic.edit import UpdateView
 from apps.quotes.models import Quote
 from apps.quotes.forms import QuoteForm
 
@@ -81,12 +81,28 @@ class QuoteCreateView(View):
             form = QuoteForm()
         
         return render(request, self.template_name, {'form' : form})
-    
 
-class QuoteDeleteView(DeleteView):
-    model = Quote
+
+class QuoteDeleteView(View):
+    '''
+    class QuoteDeleteView(DeleteView):
+        model = Quote
+        success_url = reverse_lazy('quote-list')
+        template_name = "quotes/quote_confirm_delete.html" # default
+    '''
+
+    template_name = "quotes/quote_confirm_delete.html"
     success_url = reverse_lazy('quote-list')
-    template_name = "quotes/quote_confirm_delete.html" # default
+
+    def get(self, request, pk):
+        quote = Quote.objects.get(id=pk)
+        return render(request, self.template_name, {'object' : quote})
+    
+    def post(self, request, pk):
+        quote = Quote.objects.get(id=pk)
+        quote.delete()
+        return HttpResponseRedirect(self.success_url)
+
 
 class QuoteUpdateView(UpdateView):
     model = Quote
