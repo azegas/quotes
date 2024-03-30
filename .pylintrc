@@ -1,0 +1,22 @@
+[MASTER]
+
+# let's not pylint the migrations folder
+ignore=migrations
+
+[MESSAGES CONTROL]
+
+# this makes sure that lines like such "quotes = Quote.objects.all()"
+# don't throw errors like such "apps\quotes\views.py:82:20: E1101: Class 'Quote' has no 'objects' member (no-member)"
+disable=no-member
+
+[DESIGN]
+
+# "class AuthorCreateView(CreateView):" such class declarations would throw R0901: Too many ancestors (10/7) (too-many-ancestors) warning from pylint.
+# indicates that your class, AuthorCreateView, is inheriting (directly or indirectly) from more than the default allowed number of ancestor classes.
+# By default, pylint sets this limit to 7, which is often exceeded in Django projects, especially when using class-based views (CBVs) that inherit from
+# Django's generic views and mixins, which themselves have multiple layers of inheritance.
+
+# This warning is a part of the pylint design checker, which aims to identify potential design issues in your code. However, in the context of Django,
+# especially with CBVs, having more than 7 ancestors is not uncommon and is typically not a sign of bad design. Django's CBVs are designed to be extended
+# and composed through inheritance.
+max-parents=10

@@ -20,10 +20,3 @@ repos:
     rev: 20.8b1
     hooks:
       - id: black
-  # - repo: local
-  #   hooks:
-  #     - id: pylint
-  #       name: pylint
-  #       entry: pylint
-  #       language: python
-  #       types: [python]

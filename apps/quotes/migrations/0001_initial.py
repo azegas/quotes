@@ -9,18 +9,33 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('authors', '0001_initial'),
+        ("authors", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Quote',
+            name="Quote",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.TextField()),
-                ('active', models.BooleanField(default=False)),
-                ('date_created', models.DateTimeField(auto_now_add=True)),
-                ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='authors.author')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("text", models.TextField()),
+                ("active", models.BooleanField(default=False)),
+                ("date_created", models.DateTimeField(auto_now_add=True)),
+                (
+                    "author",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="authors.author",
+                    ),
+                ),
             ],
         ),
     ]

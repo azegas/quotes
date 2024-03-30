@@ -1,17 +1,26 @@
-from django.shortcuts import render, HttpResponse
+"""A module for project views. Currently have only index."""
+
+from django.shortcuts import render
 from django.views import View
 from django.views.generic import RedirectView
 
 
 class Index(View):
-    def get(self, request):
-        message = "ROFL"
-        return render(request,"project/index.html", {"message" : message})
+    """
+    Renders an index page.
+    """
 
-    # make sure to comment out the csfr middleware for this to work
-    def post(self, request):
-        print("posted")
-        return HttpResponse("someone has posted")
-    
-class RedirectView(RedirectView):
+    def get(self, request):
+        """
+        What happens when GET method knocks on this view's door.
+        """
+        message = "ROFL"
+        return render(request, "project/index.html", {"message": message})
+
+
+class MyRedirectView(RedirectView):
+    """
+    Does this and that.
+    """
+
     url = "https://www.youtube.com"
