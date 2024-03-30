@@ -1,3 +1,9 @@
+# install the package - `pip install pre-commit`
+# write the configuration like below
+# possible hooks - https://pre-commit.com/hooks.html
+# in my case I am using some pre-commit hooks, some makefile thingies
+# run `pre-commit install` - This command installs the pre-commit hook into your .git/hooks/pre-commit so that it will be automatically run before each commit.
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.4.0
@@ -8,14 +14,16 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-ast
-  - repo: https://github.com/ambv/black
-    rev: 20.8b1
-    hooks:
-      - id: black
-  - repo: local
-    hooks:
-      - id: pylint
-        name: pylint
-        entry: pylint
-        language: python
-        types: [python]
+# repos:
+#   - repo: local
+#     hooks:
+#       - id: lint
+#         name: Linting
+#         entry: make lint
+#         language: system
+#         stages: [commit]
+#       - id: test
+#         name: Run Tests
+#         entry: make test
+#         language: system
+#         stages: [commit]
