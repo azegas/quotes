@@ -14,16 +14,15 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-ast
-# repos:
-#   - repo: local
-#     hooks:
-#       - id: lint
-#         name: Linting
-#         entry: make lint
-#         language: system
-#         stages: [commit]
-#       - id: test
-#         name: Run Tests
-#         entry: make test
-#         language: system
-#         stages: [commit]
+  - repo: local
+    hooks:
+      # - id: lint
+      #   name: Linting
+      #   entry: make lint
+      #   language: system
+      #   stages: [commit]
+      - id: test
+        name: Run Tests
+        entry: make test
+        language: system
+        stages: [commit]
