@@ -4,7 +4,11 @@
 # in my case I am using some pre-commit hooks, some makefile thingies
 # run `pre-commit install` - This command installs the pre-commit hook into your .git/hooks/pre-commit so that it will be automatically run before each commit.
 
-# !!!! DON'T FORGET THE `PRE-COMMIT INSTALL` COMMAND IN TERMINAL AFTER MAKING CHANGES TO THIS FILE !!!
+# !!!! DON'T FORGET TO RUN `pre-commit install` COMMAND IN TERMINAL AFTER MAKING CHANGES TO THIS FILE !!!
+
+# to make the .git folder visible in vscode, go file -> preferences -> settings -> files.exclude and uncheck .git folder
+
+# can make the commit from the terminal, OR can use source-control tab in VsCode and a "commit" button. Both will run the pre-commit. Can see the output in the terminal.
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
