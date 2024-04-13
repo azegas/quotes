@@ -4,7 +4,7 @@
 # in my case I am using some pre-commit hooks, some makefile thingies
 # run `pre-commit install` - This command installs the pre-commit hook into your .git/hooks/pre-commit so that it will be automatically run before each commit.
 
-# !!!! DON'T FORGET THE `PRE-COMMIT INSTALL` COMMAND AFTER MAKING CHANGES TO THIS FILE !!!
+# !!!! DON'T FORGET THE `PRE-COMMIT INSTALL` COMMAND IN TERMINAL AFTER MAKING CHANGES TO THIS FILE !!!
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
