@@ -72,20 +72,28 @@ repos:
     hooks:
       - id: flake8
 
-  # created .pylintrc, took all the defaults from https://github.com/pylint-dev/pylint/blob/main/pylintrc
-  # added some of my own configs to it also
+  # pylint - linter and a static code analyzer
+  # defaults - https://github.com/pylint-dev/pylint/blob/main/pylintrc
+  # Pylint is just like flake8. It will check your code for any formatting issues as well as any performance issues.
+  # The difference is that pylint is a little more thorough and more customizable.
+  # Those two complement each other (so if you need to ignore something, you will have to ignore it twice.
+  # For flake ignore a line with (# noqa: E501), for pylint ignore a single line with (pylint: disable=C0301).
+  # You don't have to set both of them up, but I sleep better when I know that two unrelated programs checked my code :)
+  # created .pylintrc, added some of my own configs to it
   # if you don't like the score or something, can run pylint manually with "make lint"
+  # depends on a local pylint installation, not a github repo, like the rest
   - repo: local
     hooks:
       - id: pylint
         name: pylint
-        entry: make lint
+        entry: pylint # tried with 'make lint', but runs 7 times of the same for some god damn reason...
         language: system
         types: [python]
         args:
           [
-            "-rn", # Only display messages
-            "-sn", # Don't display the score
+            "-rn", # Only display messages (warnings)
+            "-sn", # Don't display the score (for some reason it runs 7 times. No need to see 7 times of the same..)
+            "--rcfile=.pylintrc", # Link to config file. Tested. It is taken into consideration
           ]
 
   # djlint-django - Looks for errors and inconsistencies in your HTML files.

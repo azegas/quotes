@@ -23,19 +23,19 @@ lint: lint-project lint-apps lint-tests lint-ag_mixins
 
 lint-project:
 	python -m pylint --version
-	python -m pylint project
+	python -m pylint project --rcfile=.pylintrc
 
 lint-apps:
 	python -m pylint --version
-	python -m pylint apps
+	python -m pylint apps --rcfile=.pylintrc
 
 lint-tests:
 	python -m pylint --version
-	python -m pylint tests
+	python -m pylint tests --rcfile=.pylintrc
 
 lint-ag_mixins:
 	python -m pylint --version
-	python -m pylint ag_mixins
+	python -m pylint ag_mixins --rcfile=.pylintrc
 
 
 ######################################### FORMATTING ###############################################
