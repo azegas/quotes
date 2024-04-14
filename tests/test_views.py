@@ -22,6 +22,7 @@ class TestViews(TestCase):
         # Create some test authors
         Author.objects.create(name="Test Author 1")
         Author.objects.create(name="Test Author 2")
+        self.author = Author.objects.create(name="Test Author")
 
     def test_index_get(self):
         """test index view"""
@@ -42,3 +43,14 @@ class TestViews(TestCase):
         self.assertIn("author_list", response.context)
         self.assertContains(response, "Test Author 1")
         self.assertContains(response, "Test Author 2")
+
+    def test_author_detail_view(self):
+        """test author detail view"""
+
+        url = reverse("author-detail", kwargs={"pk": self.author.pk})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "authors/author_detail.html")
+        self.assertIn("object", response.context)
+        self.assertContains(response, "Test Author")
