@@ -1,5 +1,5 @@
 """
-Module containing a function to add two numbers and a TestCase class to test it.
+Module containing a function to add two numbers and a TestCase class to test it
 """
 
 from django.test import TestCase

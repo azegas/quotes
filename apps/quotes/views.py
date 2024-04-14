@@ -80,7 +80,9 @@ class QuoteCreateView(View):
             text = form.cleaned_data["text"]
             author = form.cleaned_data["author"]
             active = form.cleaned_data["active"]
-            quote = Quote.objects.create(text=text, author=author, active=active)
+            quote = Quote.objects.create(
+                text=text, author=author, active=active
+            )
             quote.save()
             return HttpResponseRedirect(self.success_url)
 

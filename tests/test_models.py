@@ -16,10 +16,12 @@ class TestQuoteModel(TestCase):
 
     def setUp(self):
         """
-        Setup is so I don’t have to repeat Movie.objects.create(...) inside every test
+        Setup is so I don’t have to repeat Movie.objects.create(...)
         """
         self.author = Author.objects.create(name="Autorius")
-        self.quote = Quote.objects.create(text="Test Quote", author=self.author, id=1)
+        self.quote = Quote.objects.create(
+            text="Test Quote", author=self.author, id=1
+        )
 
     def test_unique_api_id_is_enforced(self):
         """
@@ -29,7 +31,9 @@ class TestQuoteModel(TestCase):
         """
 
         with self.assertRaises(IntegrityError):
-            Quote.objects.create(text="Another Test Quote", author=self.author, id=1)
+            Quote.objects.create(
+                text="Another Test Quote", author=self.author, id=1
+            )
 
     def test_added_date_automatically(self):
         """

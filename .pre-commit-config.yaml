@@ -6,6 +6,8 @@
 
 # !!!! DON'T FORGET TO RUN `pre-commit install` COMMAND IN TERMINAL AFTER MAKING CHANGES TO THIS FILE !!!
 
+# big inspiration to this file - https://builtwithdjango.com/blog/improve-your-code-with-pre-commit
+
 # to make the .git folder visible in vscode, go file -> preferences -> settings -> files.exclude and uncheck .git folder (then hide it again, so it does not show up in the searches)
 
 # can make the commit from the terminal, OR can use source-control tab in VsCode and a "commit" button. Both will run the pre-commit. Can see the output in the terminal.
@@ -31,15 +33,23 @@ repos:
       - id: debug-statements
       - id: detect-private-key
 
-  # code formatting (for python)
+  # black - The uncompromising Python code formatter
+  # all the files that you want to commit will be checked for any inconsistencies and bad styling (based on PEP 8 standard).
+  # This hook will automatically fix those issues according to the standards
+  # possible black args - https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html
+  # line length suggestions 79 vs 88 - https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#line-length
   - repo: https://github.com/ambv/black
     rev: 24.4.0
     hooks:
       - id: black
+        args: ["--line-length", "79"] # "black-formatter.args": ["--line-length", "79"], in vscode
 
-  # sorts the imports.
-    # https://builtwithdjango.com/blog/improve-your-code-with-pre-commit#isort
-    # Possible profiles to use - https://pycqa.github.io/isort/docs/configuration/profiles.html
+
+
+  # isort - sort imports alphabetically, and automatically separated into sections and by type
+  # docs - https://pycqa.github.io/isort/
+  # https://builtwithdjango.com/blog/improve-your-code-with-pre-commit#isort
+  # Possible profiles to use - https://pycqa.github.io/isort/docs/configuration/profiles.html
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
@@ -47,9 +57,35 @@ repos:
         name: isort (python)
         args: ["--profile", "black"]
 
-  # automatically upgrade syntax for newer versions of python language
-  # https://github.com/asottile/pyupgrade
+  # pyupgrade - A tool to automatically upgrade syntax for newer versions
+  # docs - https://github.com/asottile/pyupgrade
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.15.2
     hooks:
     - id: pyupgrade
+
+  # flake8 - Tool For Style Guide Enforcement
+  # docs - https://flake8.pycqa.org/en/latest/
+  # this plugin doesn't update the file for us you have to manually fix the code to the standard OR add
+  # an exception like "# noqa: E501" for example to the piece of code
+  # can create .flake8 file inside the repo to override some style requirements
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+
+  # created .pylintrc, took all the defaults from https://github.com/pylint-dev/pylint/blob/main/pylintrc
+  # added some of my own configs to it also
+  # if you don't like the score or something, can run pylint manually with "make lint"
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: make lint
+        language: system
+        types: [python]
+        args:
+          [
+            "-rn", # Only display messages
+            "-sn", # Don't display the score
+          ]

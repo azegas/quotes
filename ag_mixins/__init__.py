@@ -31,8 +31,8 @@ class AgObjectRetrievalMixin:
             Http404: If the object with the given primary key does not exist.
         """
 
-        # Using 'get_object_or_404', otherwise it throws 500 (Internal Server Error).
+        # Using 'get_object_or_404', else it throws 500 (Internal Server Error)
         # get_object_or_404 provides a more user-friendly response when a
-        # requested object cannot be found, instead of displaying a server error page.
+        # requested object cannot be found, instead of server error page.
 
         return get_object_or_404(model, id=pk)
