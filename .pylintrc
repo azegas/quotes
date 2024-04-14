@@ -1,15 +1,12 @@
 [MAIN]
 
-# let's not pylint the migrations folder
-ignore=migrations
-
 # Python code to execute, usually for sys.path manipulation such as
 # pygtk.require().
 #init-hook=
 
 # Files or directories to be skipped. They should be base names, not
 # paths.
-ignore=CVS
+ignore=CVS, migrations
 
 # Add files or directories matching the regex patterns to the ignore-list. The
 # regex matches against paths and can be in Posix or Windows format.
@@ -79,10 +76,6 @@ clear-cache-post-run=no
 
 [MESSAGES CONTROL]
 
-# this makes sure that lines like such "quotes = Quote.objects.all()"
-# don't throw errors like such "apps\quotes\views.py:82:20: E1101: Class 'Quote' has no 'objects' member (no-member)"
-disable=no-member
-
 # Only show warnings with the listed confidence levels. Leave empty to show
 # all. Valid levels: HIGH, INFERENCE, INFERENCE_FAILURE, UNDEFINED
 # confidence=
@@ -116,6 +109,9 @@ disable=
     # We anticipate #3512 where it will become optional
     fixme,
     consider-using-assignment-expr,
+    # this makes sure that lines like such "quotes = Quote.objects.all()"
+    # don't throw errors like such "apps\quotes\views.py:82:20: E1101: Class 'Quote' has no 'objects' member (no-member)"
+    no-member, 
 
 
 [REPORTS]
