@@ -6,9 +6,15 @@
 
 # !!!! DON'T FORGET TO RUN `pre-commit install` COMMAND IN TERMINAL AFTER MAKING CHANGES TO THIS FILE !!!
 
-# to make the .git folder visible in vscode, go file -> preferences -> settings -> files.exclude and uncheck .git folder
+# to make the .git folder visible in vscode, go file -> preferences -> settings -> files.exclude and uncheck .git folder (then hide it again, so it does not show up in the searches)
 
 # can make the commit from the terminal, OR can use source-control tab in VsCode and a "commit" button. Both will run the pre-commit. Can see the output in the terminal.
+
+# the pre-commit runs only on the changed files. So for example 'isort' will only run on files changed in current commit, not ALL of the files in the project (should be able to do it manually)
+
+# to run the pre-commit manually - "pre-commit run --all-files"
+
+exclude: .*migrations\/.*
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -20,7 +26,13 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-ast
+      - id: check-added-large-files
+      - id: check-symlinks
+      - id: debug-statements
+      - id: detect-private-key
+
+  # code formatting (for python)
   - repo: https://github.com/ambv/black
-    rev: 20.8b1
+    rev: 24.4.0
     hooks:
       - id: black
