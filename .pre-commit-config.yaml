@@ -1,3 +1,5 @@
+# https://pre-commit.com/
+
 # install the package - `pip install pre-commit`
 # write the configuration like below
 # possible hooks - https://pre-commit.com/hooks.html
@@ -86,8 +88,11 @@ repos:
     hooks:
       - id: pylint
         name: pylint
-        entry: pylint # tried with 'make lint', but runs 7 times of the same for some god damn reason...
-        language: system # if doing commits over terminal and venv, uses venv's pylint. If doing over vscode github section - will use system python. Have pylint installed there
+        # entry option - since pylint is only possible to run from local installation, specifying the venv from which to use. Otherwise it will use the global python installation
+        # when it uses global python installation, it might complain that dotenv package is not found for example, since dotenv is not installed globally, but only in venv.
+        # so us specifying that pylint executable is in my project's venv, it will find all the other needed packages in that venv also, such as dotenv
+        entry: C:\\Users\\arvydas\\Envs\\quotes\\Scripts\\pylint.exe # tried with 'make lint', but runs 7 times of the same for some god damn reason...
+        language: system
         types: [python]
         args:
           [
