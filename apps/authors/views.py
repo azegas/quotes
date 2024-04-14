@@ -1,9 +1,10 @@
 """A module for author app views."""
 
 from django.urls import reverse_lazy
-from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.list import ListView
+
 from apps.authors.models import Author
 
 

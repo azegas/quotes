@@ -1,12 +1,13 @@
 """A module for quotes app views."""
 
-from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
-from apps.quotes.models import Quote
-from apps.quotes.forms import QuoteForm
+
 from ag_mixins import AgObjectRetrievalMixin
+from apps.quotes.forms import QuoteForm
+from apps.quotes.models import Quote
 
 
 class QuoteListView(View):

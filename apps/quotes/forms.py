@@ -1,6 +1,7 @@
 """A module for quotes page forms. They are later used in the views.py"""
 
 from django import forms
+
 from apps.authors.models import Author
 
 

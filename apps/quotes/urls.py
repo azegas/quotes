@@ -1,11 +1,12 @@
 """A module that contains all the urls for the quote app."""
 
 from django.urls import path
+
 from apps.quotes.views import (
-    QuoteListView,
-    QuoteDetailView,
     QuoteCreateView,
     QuoteDeleteView,
+    QuoteDetailView,
+    QuoteListView,
     QuoteUpdateView,
 )
 

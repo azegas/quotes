@@ -1,11 +1,12 @@
 """A module that contains all the urls for the author app."""
 
 from django.urls import path
+
 from apps.authors.views import (
-    AuthorListView,
-    AuthorDetailView,
     AuthorCreateView,
     AuthorDeleteView,
+    AuthorDetailView,
+    AuthorListView,
     AuthorUpdateView,
 )
 

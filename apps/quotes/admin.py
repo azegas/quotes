@@ -1,6 +1,7 @@
 """A module to register quotes app models to django admin."""
 
 from django.contrib import admin
+
 from apps.quotes.models import Quote
 
 

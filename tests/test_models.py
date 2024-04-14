@@ -1,10 +1,12 @@
 """File that contains the tests for Django models/orm."""
 
 from datetime import datetime
-from django.test import TestCase
+
 from django.db.utils import IntegrityError
-from apps.quotes.models import Quote
+from django.test import TestCase
+
 from apps.authors.models import Author
+from apps.quotes.models import Quote
 
 
 class TestQuoteModel(TestCase):

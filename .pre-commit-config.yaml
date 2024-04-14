@@ -36,3 +36,13 @@ repos:
     rev: 24.4.0
     hooks:
       - id: black
+
+  # sorts the imports.
+    # https://builtwithdjango.com/blog/improve-your-code-with-pre-commit#isort
+    # Possible profiles to use - https://pycqa.github.io/isort/docs/configuration/profiles.html
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--profile", "black"]

@@ -1,6 +1,7 @@
 """A module to register authors app models to django admin."""
 
 from django.contrib import admin
+
 from apps.authors.models import Author
 
 

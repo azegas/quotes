@@ -5,7 +5,8 @@ A single place from which ALL the urls are created.
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
+
 from project.views import Index, MyRedirectView
 
 urlpatterns = [
