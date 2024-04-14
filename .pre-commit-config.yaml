@@ -119,3 +119,16 @@ repos:
     rev: 1.7.8
     hooks:
       - id: bandit
+
+  # installing dotenv locally... enough of debugging for today
+  - repo: local
+    hooks:
+      - id: local unit tests
+        name: local unit tests
+        entry: python manage.py test
+        language: system
+        pass_filenames: false #this hook will not receive the filenames of the files being committed as arguments. It will simply run the command python manage.py test without any file context. Just as we want.
+
+  # check for TODO's in your project with a custom pre-commit hook.
+  # similar to here - https://dev.to/techishdeep/maximize-your-python-efficiency-with-pre-commit-a-complete-but-concise-guide-39a5
+  # and here - https://betterprogramming.pub/want-to-avoid-forgotten-todos-in-your-project-lets-do-it-with-git-hooks-6a1835f26cf5
