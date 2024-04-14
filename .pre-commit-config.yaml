@@ -44,8 +44,6 @@ repos:
       - id: black
         args: ["--line-length", "79"] # "black-formatter.args": ["--line-length", "79"], in vscode
 
-
-
   # isort - sort imports alphabetically, and automatically separated into sections and by type
   # docs - https://pycqa.github.io/isort/
   # https://builtwithdjango.com/blog/improve-your-code-with-pre-commit#isort
@@ -89,3 +87,11 @@ repos:
             "-rn", # Only display messages
             "-sn", # Don't display the score
           ]
+
+  # djlint-django - Looks for errors and inconsistencies in your HTML files.
+  # docs - https://djlint.com/docs/configuration/
+  # seems unmaintained. Will try to use it anyway for now.
+  - repo: https://github.com/Riverside-Healthcare/djLint
+    rev: v1.34.1
+    hooks:
+      - id: djlint-django
