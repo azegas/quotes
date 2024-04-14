@@ -18,6 +18,9 @@
 
 # to run the pre-commit manually - "pre-commit run --all-files"
 
+# can run such checks in CI also (have not tried) - https://dev.to/techishdeep/maximize-your-python-efficiency-with-pre-commit-a-complete-but-concise-guide-39a5
+# why not to use pre-commits (valid points) - https://www.youtube.com/watch?v=RAelLqnnOp0&ab_channel=Theo-t3%E2%80%A4gg
+
 exclude: .*migrations\/.*
 
 repos:
@@ -108,3 +111,11 @@ repos:
     rev: v1.34.1
     hooks:
       - id: djlint-django
+
+  # bandit - a tool designed to find common security issues in Python code.
+  # docs - https://github.com/PyCQA/bandit
+  # reminds that you should hide secret_keys and similar
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.8
+    hooks:
+      - id: bandit
