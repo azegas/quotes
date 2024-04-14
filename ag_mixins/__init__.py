@@ -11,7 +11,7 @@ a separate class, which can be inherited by other classes as needed.
 from django.shortcuts import get_object_or_404
 
 
-class AgObjectRetrievalMixin:
+class AgObjectRetrievalMixin:  # pylint: disable=R0903
     """
     Mixin class providing common methods for retrieving objects.
     """
