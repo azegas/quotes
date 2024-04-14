@@ -87,7 +87,7 @@ repos:
       - id: pylint
         name: pylint
         entry: pylint # tried with 'make lint', but runs 7 times of the same for some god damn reason...
-        language: system
+        language: system # if doing commits over terminal and venv, uses venv's pylint. If doing over vscode github section - will use system python. Have pylint installed there
         types: [python]
         args:
           [
