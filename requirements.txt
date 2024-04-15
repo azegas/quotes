@@ -4,6 +4,7 @@ black==24.4.0
 cfgv==3.4.0
 click==8.1.7
 colorama==0.4.6
+coverage==7.4.4
 cssbeautifier==1.15.1
 dill==0.3.8
 distlib==0.3.8
