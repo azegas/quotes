@@ -53,11 +53,23 @@ class TestQuoteModel(TestCase):
         )  # ininstance is similar to "type()"
         self.assertFalse(self.quote.active)
 
-    def test_str(self):
+    def test_str_quote(self):
         """
-        Test the __str__ method
+        Test the __str__ method of quote model
         """
         expected = "Test Quote"
         actual = str(self.quote)
+        print(expected)
+        print(actual)
+
+        self.assertEqual(expected, actual)
+
+    def test_str_author(self):
+        """test the __str__ method of author model"""
+
+        expected = "Autorius"
+        actual = str(self.author)
+        print(expected)
+        print(actual)
 
         self.assertEqual(expected, actual)
