@@ -79,3 +79,19 @@ class TestViews(TestCase):
         self.assertRedirects(response, reverse("author-list"))
         self.assertEqual(Author.objects.count(), initial_count - 1)
         self.assertFalse(Author.objects.filter(pk=self.author.pk).exists())
+
+    def test_author_update_view(self):
+        """test author update view"""
+
+        form_data = {
+            "name": "after",
+            "lastname": "test",
+        }
+
+        url = reverse("author-update", kwargs={"pk": self.author.pk})
+        response = self.client.post(url, data=form_data)
+        self.assertRedirects(response, reverse("author-list"))
+        # Refresh the author instance from the database to get the updated data
+        self.author.refresh_from_db()
+        self.assertEqual(self.author.name, form_data["name"])
+        self.assertEqual(self.author.lastname, form_data["lastname"])
