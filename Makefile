@@ -7,6 +7,12 @@
 ## write make in terminal to check if it's reachable/usable
 ## make sure this file is written with tabs, not spaces. Can use "convert indentation to tabs" in vscode
 
+## In a Makefile, .PHONY is a special target that specifies a list of "phony" targets, which are targets that
+# do not correspond to actual files. Instead, they are used to group and organize other targets, or to specify
+# commands that should always be executed regardless of whether a file with the same name exists.
+# When you declare a target as .PHONY, it tells Make that the target is not a file, so Make will always execute
+# the associated commands, even if a file with the same name exists in the directory.
+
 
 ######################################### LINTING ##################################################
 
@@ -55,6 +61,9 @@ black:
 
 # This target runs Django's test suite. It finds tests in any file named with the pattern test*.py under the current directory and its subdirectories.
 
-.PHONY: test
+.PHONY: test coverage
 test:
 	python manage.py test
+
+coverage:
+	coverage run manage.py test & coverage report & coverage html
