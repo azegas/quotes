@@ -54,3 +54,19 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, "authors/author_detail.html")
         self.assertIn("object", response.context)
         self.assertContains(response, "Test Author")
+
+    def test_author_create_view(self):
+        "test author create view"
+
+        form_data = {
+            "name": "sukurtas",
+            "lastname": "testo",
+        }
+
+        url = reverse("author-create")
+        response = self.client.post(url, data=form_data)
+        self.assertRedirects(response, reverse("author-list"))
+        print(Author.objects.count())
+        created_author = Author.objects.get(name="sukurtas")
+        self.assertEqual(created_author.name, "sukurtas")
+        self.assertEqual(created_author.lastname, "testo")
