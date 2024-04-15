@@ -59,8 +59,6 @@ class TestQuoteModel(TestCase):
         """
         expected = "Test Quote"
         actual = str(self.quote)
-        print(expected)
-        print(actual)
 
         self.assertEqual(expected, actual)
 
@@ -69,7 +67,5 @@ class TestQuoteModel(TestCase):
 
         expected = "Autorius"
         actual = str(self.author)
-        print(expected)
-        print(actual)
 
         self.assertEqual(expected, actual)

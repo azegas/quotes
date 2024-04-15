@@ -4,6 +4,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from apps.authors.models import Author
+from apps.quotes.models import Quote
 
 
 class TestViews(TestCase):
@@ -19,10 +20,13 @@ class TestViews(TestCase):
 
         self.client = Client()
         self.index_url = reverse("index")
-        # Create some test authors
+
+        # Create some test data later used in the tests
         Author.objects.create(name="Test Author 1")
         Author.objects.create(name="Test Author 2")
         self.author = Author.objects.create(name="Test Author")
+        self.quote1 = Quote.objects.create(text="Test Quote 1")
+        self.quote2 = Quote.objects.create(text="Test Quote 2")
 
     def test_index_get(self):
         """test index view"""
@@ -95,3 +99,18 @@ class TestViews(TestCase):
         self.author.refresh_from_db()
         self.assertEqual(self.author.name, form_data["name"])
         self.assertEqual(self.author.lastname, form_data["lastname"])
+
+    def test_quote_list_view(self):
+        """test quote list view"""
+
+        # Make a GET request to the view using the test client
+        response = self.client.get(reverse("quote-list"))
+
+        # Check that the response is rendered using the correct template
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "quotes/quote_list.html")
+
+        # Check that the quotes are included in the response context
+        self.assertIn("object_list", response.context)
+        self.assertContains(response, self.quote1.text)
+        self.assertContains(response, self.quote2.text)
