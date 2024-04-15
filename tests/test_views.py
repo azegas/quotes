@@ -66,9 +66,9 @@ class TestViews(TestCase):
         url = reverse("author-create")
         response = self.client.post(url, data=form_data)
         self.assertRedirects(response, reverse("author-list"))
-        created_author = Author.objects.get(name="sukurtas")
-        self.assertEqual(created_author.name, "sukurtas")
-        self.assertEqual(created_author.lastname, "testo")
+        created_author = Author.objects.get(name=form_data["name"])
+        self.assertEqual(created_author.name, form_data["name"])
+        self.assertEqual(created_author.lastname, form_data["lastname"])
 
     def test_author_delete_view(self):
         """test author delete view"""
