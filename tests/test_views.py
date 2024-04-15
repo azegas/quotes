@@ -56,7 +56,7 @@ class TestViews(TestCase):
         self.assertContains(response, "Test Author")
 
     def test_author_create_view(self):
-        "test author create view"
+        """test author create view"""
 
         form_data = {
             "name": "sukurtas",
@@ -66,7 +66,16 @@ class TestViews(TestCase):
         url = reverse("author-create")
         response = self.client.post(url, data=form_data)
         self.assertRedirects(response, reverse("author-list"))
-        print(Author.objects.count())
         created_author = Author.objects.get(name="sukurtas")
         self.assertEqual(created_author.name, "sukurtas")
         self.assertEqual(created_author.lastname, "testo")
+
+    def test_author_delete_view(self):
+        """test author delete view"""
+
+        url = reverse("author-delete", kwargs={"pk": self.author.pk})
+        initial_count = Author.objects.count()
+        response = self.client.post(url)
+        self.assertRedirects(response, reverse("author-list"))
+        self.assertEqual(Author.objects.count(), initial_count - 1)
+        self.assertFalse(Author.objects.filter(pk=self.author.pk).exists())
