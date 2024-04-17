@@ -22,7 +22,7 @@ class QuoteListView(View):
     template_name = "quotes/quote_list.html"
 
     def get(self, request):
-        """What happens to this view when get request knows on the door."""
+        """What happens to this view when get request knocks on the door."""
         quotes = Quote.objects.all()
         return render(request, self.template_name, {"object_list": quotes})
 
@@ -39,7 +39,7 @@ class QuoteDetailView(AgObjectRetrievalMixin, View):
     template_name = "quotes/quote_detail.html"
 
     def get(self, request, pk):
-        """What happens to this view when get request knows on the door."""
+        """What happens to this view when get request knocks on the door."""
         quote = self.ag_get_object_by_id(Quote, pk)
         return render(request, self.template_name, {"quote": quote})
 
@@ -60,7 +60,7 @@ class QuoteCreateView(View):
     success_url = reverse_lazy("quote-list")
 
     def get(self, request):
-        """What happens to this view when get request knows on the door."""
+        """What happens to this view when get request knocks on the door."""
         form = self.form_class()
         return render(request, self.template_name, {"form": form})
 
@@ -101,13 +101,13 @@ class QuoteDeleteView(AgObjectRetrievalMixin, View):
     success_url = reverse_lazy("quote-list")
 
     def get(self, request, pk):
-        """What happens to this view when get request knows on the door."""
+        """What happens to this view when get request knocks on the door."""
         quote = self.ag_get_object_by_id(Quote, pk)
         return render(request, self.template_name, {"object": quote})
 
     def post(self, _request, pk):
         """
-        What happens to this view when post request knows on the door.
+        What happens to this view when post request knocks on the door.
 
         about _request - _arguments in Python can be named with a leading
         underscore to indicate that they are intentionally unused
@@ -131,7 +131,7 @@ class QuoteUpdateView(AgObjectRetrievalMixin, View):
     success_url = reverse_lazy("quote-list")
 
     def get(self, request, pk):
-        """What happens to this view when get request knows on the door."""
+        """What happens to this view when get request knocks on the door."""
         quote = self.ag_get_object_by_id(Quote, pk)
         form = self.form_class(
             initial={
@@ -143,7 +143,7 @@ class QuoteUpdateView(AgObjectRetrievalMixin, View):
         return render(request, self.template_name, {"form": form})
 
     def post(self, request, pk):
-        """What happens to this view when post request knows on the door."""
+        """What happens to this view when post request knocks on the door."""
         quote = self.ag_get_object_by_id(Quote, pk)
         form = self.form_class(request.POST)
 

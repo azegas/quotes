@@ -126,6 +126,22 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, "quotes/quote_detail.html")
         self.assertContains(response, self.quote1.text)
 
+    def test_quote_create_view_get(self):
+        """Test GET request to quote create view"""
+
+        url = reverse("quote-create")
+        response = self.client.get(url)
+
+        # Check that the response status code is 200
+        self.assertEqual(response.status_code, 200)
+
+        # Check that the correct template is used
+        self.assertTemplateUsed(response, "quotes/quote_form.html")
+
+        # Check that the form is passed to the template context
+        self.assertTrue("form" in response.context)
+        self.assertIsInstance(response.context["form"], QuoteForm)
+
     def test_quote_create_view_post(self):
         """test POST request to quote create view"""
 
@@ -169,19 +185,3 @@ class TestViews(TestCase):
         # Check that the form contains errors
         form = response.context["form"]
         self.assertTrue(form.errors)
-
-    def test_quote_create_view_get(self):
-        """Test GET request to quote create view"""
-
-        url = reverse("quote-create")
-        response = self.client.get(url)
-
-        # Check that the response status code is 200
-        self.assertEqual(response.status_code, 200)
-
-        # Check that the correct template is used
-        self.assertTemplateUsed(response, "quotes/quote_form.html")
-
-        # Check that the form is passed to the template context
-        self.assertTrue("form" in response.context)
-        self.assertIsInstance(response.context["form"], QuoteForm)
