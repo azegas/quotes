@@ -124,3 +124,22 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "quotes/quote_detail.html")
         self.assertContains(response, self.quote1.text)
+
+    def test_quote_create_view(self):
+        """test quote create view"""
+
+        form_data = {
+            "text": "labadiena",
+            "author": self.author.pk,
+        }
+
+        url = reverse("quote-create")
+        response = self.client.post(url, data=form_data)
+        self.assertEqual(response.status_code, 302)  # status code for redirect
+        self.assertRedirects(response, reverse("quote-list"))
+        # Check that the newly created quote exists in the database
+        self.assertTrue(
+            Quote.objects.filter(
+                text=form_data["text"], author=self.author
+            ).exists()
+        )
