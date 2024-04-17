@@ -114,3 +114,13 @@ class TestViews(TestCase):
         self.assertIn("object_list", response.context)
         self.assertContains(response, self.quote1.text)
         self.assertContains(response, self.quote2.text)
+
+    def test_quote_detail_view(self):
+        """test quote detail view"""
+
+        url = reverse("quote-detail", kwargs={"pk": self.quote1.pk})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "quotes/quote_detail.html")
+        self.assertContains(response, self.quote1.text)
