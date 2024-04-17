@@ -4,6 +4,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 
 from apps.authors.models import Author
+from apps.quotes.forms import QuoteForm
 from apps.quotes.models import Quote
 
 
@@ -125,8 +126,8 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, "quotes/quote_detail.html")
         self.assertContains(response, self.quote1.text)
 
-    def test_quote_create_view(self):
-        """test quote create view"""
+    def test_quote_create_view_post(self):
+        """test POST request to quote create view"""
 
         form_data = {
             "text": "labadiena",
@@ -143,3 +144,44 @@ class TestViews(TestCase):
                 text=form_data["text"], author=self.author
             ).exists()
         )
+
+    def test_quote_create_view_post_invalid_form(self):
+        """Test POST request with invalid form data"""
+
+        # Create a POST request with invalid form data
+        form_data = {
+            "text": "",  # Invalid: Text is required
+            "author": self.author.pk,
+        }
+        url = reverse("quote-create")
+        response = self.client.post(url, data=form_data)
+
+        # Check that the response status code is 200
+        self.assertEqual(response.status_code, 200)
+
+        # Check that the correct template is used
+        self.assertTemplateUsed(response, "quotes/quote_form.html")
+
+        # Check that the form is passed to the template context
+        self.assertTrue("form" in response.context)
+        self.assertIsInstance(response.context["form"], QuoteForm)
+
+        # Check that the form contains errors
+        form = response.context["form"]
+        self.assertTrue(form.errors)
+
+    def test_quote_create_view_get(self):
+        """Test GET request to quote create view"""
+
+        url = reverse("quote-create")
+        response = self.client.get(url)
+
+        # Check that the response status code is 200
+        self.assertEqual(response.status_code, 200)
+
+        # Check that the correct template is used
+        self.assertTemplateUsed(response, "quotes/quote_form.html")
+
+        # Check that the form is passed to the template context
+        self.assertTrue("form" in response.context)
+        self.assertIsInstance(response.context["form"], QuoteForm)
