@@ -61,9 +61,12 @@ black:
 
 # This target runs Django's test suite. It finds tests in any file named with the pattern test*.py under the current directory and its subdirectories.
 
-.PHONY: test coverage
+.PHONY: test coverage coverage-report
 test:
 	python manage.py test
 
 coverage:
 	coverage run manage.py test & coverage report & coverage html
+
+coverage-report:
+	coverage report
