@@ -5,6 +5,7 @@
     - [Phase 3: Advanced Challenges](#phase-3-advanced-challenges)
     - [Phase 4: Stretch Goals](#phase-4-stretch-goals)
 
+![badge](https://github.com/azegas/quotes/actions/workflows/django.yml/badge.svg)
 
 # Quotes project
 
