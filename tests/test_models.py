@@ -9,54 +9,88 @@ from apps.authors.models import Author
 from apps.quotes.models import Quote
 
 
-class TestQuoteModel(TestCase):
-    """
-    Class for tests.
-    """
+class TestModels(TestCase):
+    """Class for model tests"""
 
     def setUp(self):
-        """
-        Setup is so I don’t have to repeat Movie.objects.create(...)
-        """
-        self.author = Author.objects.create(name="Autorius")
+        """Setup is so I don’t have to repeat Movie.objects.create(...)"""
+
+        self.author = Author.objects.create(
+            id=1,
+            name="Autorius",
+            lastname="Petravicius",
+        )
         self.quote = Quote.objects.create(
-            text="Test Quote", author=self.author, id=1
+            id=1,
+            text="Test Quote",
+            author=self.author,
         )
 
-    def test_unique_api_id_is_enforced(self):
-        """
-        Test that creation of two quotes with same id is not allowed
+    def test_quote_is_created(self):
+        """Test that creation of the quotes works"""
+        self.assertTrue(
+            Quote.objects.filter(
+                id=1,
+                text="Test Quote",
+                author=self.author,
+            ).exists()
+        )
 
-        Passes - IF the IntegrityError raises an error
-        """
+    def test_author_is_created(self):
+        """Test that creation of authors works"""
+        self.assertTrue(
+            Author.objects.filter(
+                id=1,
+                name="Autorius",
+                lastname="Petravicius",
+            ).exists()
+        )
+
+    def test_quote_unique_id_is_enforced(self):
+        """Test that creation of two quotes with same id is not allowed.
+        Passes - IF the IntegrityError raises an error"""
 
         with self.assertRaises(IntegrityError):
             Quote.objects.create(
-                text="Another Test Quote", author=self.author, id=1
+                id=1,
+                text="Another Test Quote",
+                author=self.author,
             )
 
-    def test_added_date_automatically(self):
-        """
-        Test that the date is automatically saved on creation
+    def test_author_unique_id_is_enforced(self):
+        """Test that creation of two authors with same id is not allowed.
+        Passes - IF the IntegrityError raises an error"""
 
-        assert that quote.date_created is of the datetime type
-        """
+        with self.assertRaises(IntegrityError):
+            Quote.objects.create(
+                id=1,
+                text="Another Test Quote",
+                author=self.author,
+            )
+
+    def test_quote_added_date_automatically(self):
+        """Test that the date is automatically saved on creation assert that
+        quote.date_created is of the datetime type"""
 
         self.assertTrue(type(self.quote.date_created), datetime)
 
-    def test_active_false_by_default(self):
-        """
-        Test that boolean is set to false by default
-        """
+    def test_author_added_date_automatically(self):
+        """Test that the date is automatically saved on creation assert that
+        author.date_created is of the datetime type"""
+
+        self.assertTrue(type(self.author.date_created), datetime)
+
+    def test_quote_active_false_by_default(self):
+        """Test that boolean is set to false by default"""
+
         self.assertTrue(
             isinstance(self.quote.active, bool)
         )  # ininstance is similar to "type()"
         self.assertFalse(self.quote.active)
 
     def test_str_quote(self):
-        """
-        Test the __str__ method of quote model
-        """
+        """Test the __str__ method of quote model"""
+
         expected = "Test Quote"
         actual = str(self.quote)
 

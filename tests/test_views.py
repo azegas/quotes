@@ -10,7 +10,7 @@ from apps.quotes.models import Quote
 
 # pylint: disable=too-many-instance-attributes
 class TestViews(TestCase):
-    """Class for tests"""
+    """Class for view tests"""
 
     def setUp(self):
         """
