@@ -1,5 +1,14 @@
+"""A module that contains all the urls for the author app."""
+
 from django.urls import path
-from apps.authors.views import *
+
+from apps.authors.views import (
+    AuthorCreateView,
+    AuthorDeleteView,
+    AuthorDetailView,
+    AuthorListView,
+    AuthorUpdateView,
+)
 
 urlpatterns = [
     path("list", AuthorListView.as_view(), name="author-list"),

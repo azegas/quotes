@@ -1,0 +1,134 @@
+# https://pre-commit.com/
+
+# install the package - `pip install pre-commit`
+# write the configuration like below
+# possible hooks - https://pre-commit.com/hooks.html
+# in my case I am using some pre-commit hooks, some makefile thingies
+# run `pre-commit install` - This command installs the pre-commit hook into your .git/hooks/pre-commit so that it will be automatically run before each commit.
+
+# !!!! DON'T FORGET TO RUN `pre-commit install` COMMAND IN TERMINAL AFTER MAKING CHANGES TO THIS FILE !!!
+
+# big inspiration to this file - https://builtwithdjango.com/blog/improve-your-code-with-pre-commit
+
+# to make the .git folder visible in vscode, go file -> preferences -> settings -> files.exclude and uncheck .git folder (then hide it again, so it does not show up in the searches)
+
+# can make the commit from the terminal, OR can use source-control tab in VsCode and a "commit" button. Both will run the pre-commit. Can see the output in the terminal.
+
+# the pre-commit runs only on the changed files. So for example 'isort' will only run on files changed in current commit, not ALL of the files in the project (should be able to do it manually)
+
+# to run the pre-commit manually - "pre-commit run --all-files"
+
+# can run such checks in CI also (have not tried) - https://dev.to/techishdeep/maximize-your-python-efficiency-with-pre-commit-a-complete-but-concise-guide-39a5
+# why not to use pre-commits (valid points) - https://www.youtube.com/watch?v=RAelLqnnOp0&ab_channel=Theo-t3%E2%80%A4gg
+
+exclude: .*migrations\/.*
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-docstring-first
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-ast
+      - id: check-added-large-files
+      - id: check-symlinks
+      - id: debug-statements
+      - id: detect-private-key
+
+  # black - The uncompromising Python code formatter
+  # all the files that you want to commit will be checked for any inconsistencies and bad styling (based on PEP 8 standard).
+  # This hook will automatically fix those issues according to the standards
+  # possible black args - https://black.readthedocs.io/en/stable/usage_and_configuration/the_basics.html
+  # line length suggestions 79 vs 88 - https://black.readthedocs.io/en/stable/the_black_code_style/current_style.html#line-length
+  - repo: https://github.com/ambv/black
+    rev: 24.4.0
+    hooks:
+      - id: black
+        args: ["--line-length", "79"] # "black-formatter.args": ["--line-length", "79"], in vscode
+
+  # isort - sort imports alphabetically, and automatically separated into sections and by type
+  # docs - https://pycqa.github.io/isort/
+  # https://builtwithdjango.com/blog/improve-your-code-with-pre-commit#isort
+  # Possible profiles to use - https://pycqa.github.io/isort/docs/configuration/profiles.html
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--profile", "black"]
+
+  # pyupgrade - A tool to automatically upgrade syntax for newer versions
+  # docs - https://github.com/asottile/pyupgrade
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.2
+    hooks:
+    - id: pyupgrade
+
+  # flake8 - Tool For Style Guide Enforcement
+  # docs - https://flake8.pycqa.org/en/latest/
+  # this plugin doesn't update the file for us you have to manually fix the code to the standard OR add
+  # an exception like "# noqa: E501" for example to the piece of code
+  # can create .flake8 file inside the repo to override some style requirements
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+
+  # pylint - linter and a static code analyzer
+  # defaults - https://github.com/pylint-dev/pylint/blob/main/pylintrc
+  # Pylint is just like flake8. It will check your code for any formatting issues as well as any performance issues.
+  # The difference is that pylint is a little more thorough and more customizable.
+  # Those two complement each other (so if you need to ignore something, you will have to ignore it twice.
+  # For flake ignore a line with (# noqa: E501), for pylint ignore a single line with (pylint: disable=C0301).
+  # You don't have to set both of them up, but I sleep better when I know that two unrelated programs checked my code :)
+  # created .pylintrc, added some of my own configs to it
+  # if you don't like the score or something, can run pylint manually with "make lint"
+  # depends on a local pylint installation, not a github repo, like the rest
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        # entry option - since pylint is only possible to run from local installation, specifying the venv from which to use. Otherwise it will use the global python installation
+        # when it uses global python installation, it might complain that dotenv package is not found for example, since dotenv is not installed globally, but only in venv.
+        # so us specifying that pylint executable is in my project's venv, it will find all the other needed packages in that venv also, such as dotenv
+        entry: C:\\Users\\arvydas\\Envs\\quotes\\Scripts\\pylint.exe # tried with 'make lint', but runs 7 times of the same for some god damn reason...
+        language: system
+        types: [python]
+        args:
+          [
+            "-rn", # Only display messages (warnings)
+            "-sn", # Don't display the score (for some reason it runs 7 times. No need to see 7 times of the same..)
+            "--rcfile=.pylintrc", # Link to config file. Tested. It is taken into consideration
+          ]
+
+  # djlint-django - Looks for errors and inconsistencies in your HTML files.
+  # docs - https://djlint.com/docs/configuration/
+  # seems unmaintained. Will try to use it anyway for now.
+  - repo: https://github.com/Riverside-Healthcare/djLint
+    rev: v1.34.1
+    hooks:
+      - id: djlint-django
+
+  # bandit - a tool designed to find common security issues in Python code.
+  # docs - https://github.com/PyCQA/bandit
+  # reminds that you should hide secret_keys and similar
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.8
+    hooks:
+      - id: bandit
+
+  # installing dotenv locally... enough of debugging for today
+  - repo: local
+    hooks:
+      - id: local unit tests
+        name: local unit tests
+        entry: python manage.py test
+        language: system
+        pass_filenames: false #this hook will not receive the filenames of the files being committed as arguments. It will simply run the command python manage.py test without any file context. Just as we want.
+
+  # check for TODO's in your project with a custom pre-commit hook.
+  # similar to here - https://dev.to/techishdeep/maximize-your-python-efficiency-with-pre-commit-a-complete-but-concise-guide-39a5
+  # and here - https://betterprogramming.pub/want-to-avoid-forgotten-todos-in-your-project-lets-do-it-with-git-hooks-6a1835f26cf5
