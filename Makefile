@@ -67,3 +67,23 @@ test:
 
 coverage:
 	coverage run manage.py test & coverage report & coverage html
+
+######################################### DJANGO STUFF ##################################################
+
+# This target runs Django's test suite. It finds tests in any file named with the pattern test*.py under the current directory and its subdirectories.
+
+.PHONY: mm m run freeze super
+m:
+	python manage.py migrate & python manage.py migrate --database=postgresql-remote & python manage.py migrate --database=postgresql-local
+
+mm:
+	python manage.py makemigrations
+
+run:
+	python manage.py runserver
+
+freeze:
+	pip freeze > requirements.txt
+
+super:
+	python manage.py createsuperuser
