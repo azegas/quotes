@@ -106,6 +106,12 @@ DATABASES = {
         "HOST": os.getenv("POSTGRESQL_LOCAL_DB_HOST"),
         "PORT": os.getenv("POSTGRESQL_LOCAL_DB_PORT"),
     },
+    "mysql-local": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("MYSQL_LOCAL_DB_NAME"),
+        "USER": os.getenv("MYSQL_LOCAL_DB_USER"),
+        "PASSWORD": os.getenv("MYSQL_LOCAL_DB_PASSWORD"),
+    },
 }
 
 

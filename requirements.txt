@@ -23,6 +23,7 @@ json5==0.9.25
 lazy-object-proxy==1.10.0
 mccabe==0.7.0
 mypy-extensions==1.0.0
+mysqlclient==2.2.4
 nodeenv==1.8.0
 packaging==24.0
 pathspec==0.12.1

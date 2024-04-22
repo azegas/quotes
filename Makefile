@@ -74,7 +74,7 @@ coverage:
 
 .PHONY: mm m run freeze super
 m:
-	python manage.py migrate & python manage.py migrate --database=postgresql-remote & python manage.py migrate --database=postgresql-local
+	python manage.py migrate & python manage.py migrate --database=postgresql-remote & python manage.py migrate --database=postgresql-local & python manage.py migrate --database=mysql-local
 
 mm:
 	python manage.py makemigrations
