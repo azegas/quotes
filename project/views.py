@@ -27,8 +27,6 @@ class Index(View):
         if all_quotes_count >= 3:
             show_random_quote_generator = True
 
-        print(show_random_quote_generator)
-
         return render(
             request,
             "project/index.html",

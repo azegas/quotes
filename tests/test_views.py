@@ -7,8 +7,10 @@ from apps.authors.models import Author
 from apps.quotes.forms import QuoteForm
 from apps.quotes.models import Quote
 
-
 # pylint: disable=too-many-instance-attributes
+# pylint: disable=too-many-public-methods
+
+
 class TestViews(TestCase):
     """Class for view tests"""
 
@@ -261,3 +263,44 @@ class TestViews(TestCase):
         self.assertEqual(
             Quote.objects.get(pk=self.quote1.pk).text, "Test Quote 1"
         )
+
+    def test_project_show_random_quote_generator_true(self):
+        """Test project index view if it returns the correct boolean value"""
+
+        # # Create three quotes in the database
+        Quote.objects.create(text="Quote 1")
+        Quote.objects.create(text="Quote 2")
+        Quote.objects.create(text="Quote 3")
+
+        response = self.client.get(self.index_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.context["show_random_quote_generator"])
+
+    def test_project_show_random_quote_generator_false(self):
+        """Test project index view if it returns the correct boolean value"""
+
+        response = self.client.get(self.index_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(response.context["show_random_quote_generator"])
+
+    def test_project_random_quote_view_get(self):
+        """test project RandomQuote view, GET request"""
+
+        url = reverse("random-quote")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "project/partials/random_quote.html")
+        self.assertIn("random_quote", response.context)
+
+    def test_project_random_quote_view_get_no_quotes(self):
+        """test project RandomQuote view, GET request, when no quotes exist"""
+
+        # Delete all quotes from the database
+        Quote.objects.all().delete()
+
+        url = reverse("random-quote")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "project/partials/no_quotes.html")
