@@ -33,7 +33,8 @@ jobs:
           make test
 
       - name: Generate coverage.txt
-        run: coverage report > coverage.txt
+        run: |
+          coverage report > coverage.txt
 
       - name: Check if coverage.txt exists
         run: |
