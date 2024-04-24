@@ -47,10 +47,10 @@ jobs:
             echo "| coverage_percentage | $coverage_percentage |"
           } >> $GITHUB_STEP_SUMMARY
 
-      - name: Display coverage info
-      - run: |
-          echo "${{ steps.env-setup.outputs.coverage_output }}"
-          echo "${{ steps.env-setup.outputs.coverage_percentage }}"
+      # - name: Display coverage info
+      # - run: |
+      #     echo "${{ steps.env-setup.outputs.coverage_output }}"
+      #     echo "${{ steps.env-setup.outputs.coverage_percentage }}"
 
       # - name: Check coverage threshold
       #   if: ${{ env.coverage_percentage < '90' }}
