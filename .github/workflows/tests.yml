@@ -30,7 +30,7 @@ jobs:
       - name: Run Tests
         run: |
           export SECRET_KEY="${{ secrets.SECRET_KEY }}"
-          make coverage
+          make coverage > coverage.log 2>&1
 
       # Check code if code coverage is more than 90%
       - name: Check Code Coverage
