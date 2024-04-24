@@ -32,7 +32,7 @@ jobs:
           export SECRET_KEY="${{ secrets.SECRET_KEY }}"
           make coverage
 
-      # Check code coverage
+      # Check code if code coverage is more than 90%
       - name: Check Code Coverage
         run: |
           COVERAGE_THRESHOLD=90
