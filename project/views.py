@@ -9,7 +9,7 @@ from django.views.generic import RedirectView
 from apps.quotes.models import Quote
 
 
-class Index(View):
+class Index(View):               
     """
     Renders an index page.
     """
@@ -19,13 +19,10 @@ class Index(View):
         What happens when GET method knocks on this view's door.
         """
 
-        show_random_quote_generator = False
+        show_random_quote_generator =            False
 
         all_quotes = Quote.objects.all()
         all_quotes_count = len(all_quotes)
-
-        if all_quotes_count >= 3:
-            show_random_quote_generator = True
 
         return render(
             request,
@@ -67,8 +64,4 @@ class RandomQuote(View):
         # 'random' package is not safe (Issue: [B311:blacklist])
         random_quote = secrets.choice(all_quotes)
 
-        return render(
-            request,
-            "project/partials/random_quote.html",
-            {"random_quote": random_quote},
-        )
+
