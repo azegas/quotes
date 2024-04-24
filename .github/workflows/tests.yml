@@ -33,3 +33,14 @@ jobs:
           coverage run --source=. manage.py test
           coverage xml
           coverage report --skip-covered
+
+      - name: Extract coverage percentage
+        id: extract-coverage
+        run: |
+          coverage_output=$(coverage report --skip-covered)
+          coverage_percentage=$(echo "$coverage_output" | grep -oP '(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$' | grep -oP '\d+(?:\.\d+)?')
+          echo "::set-output name=coverage_percentage::$coverage_percentage"
+
+      - name: Check coverage threshold
+        if: ${{ steps.extract-coverage.outputs.coverage_percentage < '90' }}
+        run: exit 1  # Fail the workflow if coverage is less than 90%
