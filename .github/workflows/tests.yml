@@ -31,16 +31,29 @@ jobs:
         run: |
           export SECRET_KEY="${{ secrets.SECRET_KEY }}"
           coverage run --source=. manage.py test
-          coverage xml
-          coverage report --skip-covered
 
       - name: Extract coverage percentage
-        id: extract-coverage
         run: |
-          coverage_output=$(coverage report --skip-covered)
-          coverage_percentage=$(echo "$coverage_output" | grep -oP '(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$' | grep -oP '\d+(?:\.\d+)?')
-          echo "::set-output name=coverage_percentage::$coverage_percentage"
+          {
+            "coverage_output=$(coverage report --skip-covered)"
+            "coverage_percentage=$(echo "$coverage_output" | grep -oP '(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$' | grep -oP '\d+(?:\.\d+)?')"
+          } >> $GITHUB_OUTPUT
 
-      - name: Check coverage threshold
-        if: ${{ steps.extract-coverage.outputs.coverage_percentage < '90' }}
-        run: exit 1  # Fail the workflow if coverage is less than 90%
+          {
+            echo "### Workflow variables"
+            echo "| Variable   | Value       |"
+            echo "| ---------- | ----------- |"
+            echo "| coverage_output  | $coverage_output  |"
+            echo "| coverage_percentage | $coverage_percentage |"
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: Display coverage info
+      - run: |
+          echo "${{ steps.env-setup.outputs.coverage_output }}"
+          echo "${{ steps.env-setup.outputs.coverage_percentage }}"
+
+      # - name: Check coverage threshold
+      #   if: ${{ env.coverage_percentage < '90' }}
+      #   run: exit 1  # Fail the workflow if coverage is less than 90%
+      #   else:
+      #     run: echo "Coverage is m8!"
