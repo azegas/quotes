@@ -72,7 +72,7 @@ coverage:
 
 # This target runs Django's test suite. It finds tests in any file named with the pattern test*.py under the current directory and its subdirectories.
 
-.PHONY: mm m run freeze super
+.PHONY: mm m run freeze super pre pre-all
 m:
 	python manage.py migrate & python manage.py migrate --database=postgresql-remote & python manage.py migrate --database=postgresql-local & python manage.py migrate --database=mysql-local
 
@@ -87,3 +87,9 @@ freeze:
 
 super:
 	python manage.py createsuperuser
+
+pre:
+	pre-commit run
+
+pre-all:
+	pre-commit run --all-files

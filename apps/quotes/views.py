@@ -20,11 +20,39 @@ class QuoteListView(View):
     """
 
     template_name = "quotes/quote_list.html"
+    partial_template_name = "quotes/partials/quote_list_partial.html"
 
     def get(self, request):
-        """What happens to this view when get request knocks on the door."""
+        """What happens to this view when get request knocks on the door.
+
+        On get request - no parameters are being passed, render all quotes
+
+        """
+
         quotes = Quote.objects.all()
+
         return render(request, self.template_name, {"object_list": quotes})
+
+    def post(self, request):
+        """What happens to this view when POST request knocks on the door.
+
+        On post request (HTMX requires for search to have a POST request), we
+        check if the query parameter q was passed, if yes - render a partial
+        template that contains the quotes that match the query.
+        """
+
+        query = request.POST.get("q")
+
+        if query:
+            # If there's a search query, filter quotes accordingly
+            quotes = Quote.objects.filter(text__icontains=query)
+        else:
+            # If no search query, list all quotes
+            quotes = Quote.objects.all()
+
+        return render(
+            request, self.partial_template_name, {"object_list": quotes}
+        )
 
 
 class QuoteDetailView(AgObjectRetrievalMixin, View):
