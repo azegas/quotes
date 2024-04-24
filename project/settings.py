@@ -89,7 +89,29 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    "postgresql-remote": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRESQL_REMOTE_DB_NAME"),
+        "USER": os.getenv("POSTGRESQL_REMOTE_DB_USER"),
+        "PASSWORD": os.getenv("POSTGRESQL_REMOTE_DB_PASSWORD"),
+        "HOST": os.getenv("POSTGRESQL_REMOTE_DB_HOST"),
+        "PORT": os.getenv("POSTGRESQL_REMOTE_DB_PORT"),
+    },
+    "postgresql-local": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRESQL_LOCAL_DB_NAME"),
+        "USER": os.getenv("POSTGRESQL_LOCAL_DB_USER"),
+        "PASSWORD": os.getenv("POSTGRESQL_LOCAL_DB_PASSWORD"),
+        "HOST": os.getenv("POSTGRESQL_LOCAL_DB_HOST"),
+        "PORT": os.getenv("POSTGRESQL_LOCAL_DB_PORT"),
+    },
+    "mysql-local": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("MYSQL_LOCAL_DB_NAME"),
+        "USER": os.getenv("MYSQL_LOCAL_DB_USER"),
+        "PASSWORD": os.getenv("MYSQL_LOCAL_DB_PASSWORD"),
+    },
 }
 
 

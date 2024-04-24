@@ -120,7 +120,8 @@ repos:
     hooks:
       - id: bandit
 
-  # installing dotenv locally... enough of debugging for today
+  # for some reason, when running pre-commit over vscode's github window, it does not look into the virtual env where dotenv and psycopg2 is installed.
+  # to fix it, I installed dotenv and psycopg2 and mysqlclient locally... not the best idea, but good enough for now
   - repo: local
     hooks:
       - id: local unit tests

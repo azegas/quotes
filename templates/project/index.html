@@ -2,6 +2,16 @@
 
 {% block content %}
 
-<p>{{ message }}</p>
+<p>Pick a random quote from {{ all_quotes_count }} quotes in the database!</p>
+
+<form hx-get="{% url 'random-quote' %}" hx-target="#random">
+    <button type="submit" {% if not show_random_quote_generator %}disabled{% endif %} >Random quote</button>
+</form>
+
+{% if show_random_quote_generator %}
+<div id="random">
+    {% include "project/partials/random_quote.html" %}
+</div>
+{% endif %}
 
 {% endblock content %}
