@@ -116,16 +116,30 @@ class TestViews(TestCase):
         self.assertContains(response, self.quote1.text)
         self.assertContains(response, self.quote2.text)
 
-    def test_quote_list_view_with_query(self):
-        """test quote list view when there is a query passed in"""
+    def test_quote_list_view_with_query_post(self):
+        """test quote list view POST method when there is a query passed in"""
 
-        # query is 1, we should find a "Test Quote 1" in the response
-        query = "1"
-        url = reverse("quote-list") + f"?q={query}"
-        response = self.client.get(url)
+        response = self.client.post(self.quote_list_url, data={"q": "1"})
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "quotes/quote_list.html")
-        self.assertContains(response, self.quote1.text)
+
+        # Check if the response contains the expected quotes
+        self.assertContains(response, "Test Quote 1")
+        self.assertNotContains(
+            response, "Test Quote 2"
+        )  # Quote 2 should not be in the response
+
+    def test_quote_list_view_without_query_post(self):
+        """test quote list view POST method when there is no query passed in"""
+
+        # Send a POST request without a search query
+        response = self.client.post(self.quote_list_url)
+
+        # Check if the response is successful
+        self.assertEqual(response.status_code, 200)
+
+        # Check if the response contains all quotes
+        self.assertContains(response, "Test Quote 1")
+        self.assertContains(response, "Test Quote 2")
 
     def test_quote_detail_view(self):
         """test quote detail view"""

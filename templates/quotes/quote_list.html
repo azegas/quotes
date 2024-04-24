@@ -4,8 +4,14 @@
 
 <h1>Quotes</h1>
 
-<form action="{% url 'quote-list' %}" method="get" hx-target="#quote-list">
-    <input name="q" type="text" placeholder="Search...">
+<!-- https://htmx.org/examples/active-search/ -->
+<form>
+    {% csrf_token %}
+    <input type="search"
+        name="q" placeholder="Search..."
+        hx-post="{% url 'quote-list' %}"
+        hx-trigger="input changed delay:500ms, search"
+        hx-target="#quote-list" >
 </form>
 
 <ul id="quote-list">
