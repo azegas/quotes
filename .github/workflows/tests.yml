@@ -30,6 +30,6 @@ jobs:
       - name: Run Tests
         run: |
           export SECRET_KEY="${{ secrets.SECRET_KEY }}"
-          make test
+          coverage run --source=. manage.py test
           coverage xml
           coverage report --skip-covered
