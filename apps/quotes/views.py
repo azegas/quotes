@@ -23,7 +23,16 @@ class QuoteListView(View):
 
     def get(self, request):
         """What happens to this view when get request knocks on the door."""
-        quotes = Quote.objects.all()
+
+        query = request.GET.get("q")
+
+        if query:
+            # If there's a search query, filter quotes accordingly
+            quotes = Quote.objects.filter(text__icontains=query)
+        else:
+            # If no search query, list all quotes
+            quotes = Quote.objects.all()
+
         return render(request, self.template_name, {"object_list": quotes})
 
 

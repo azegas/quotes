@@ -116,6 +116,17 @@ class TestViews(TestCase):
         self.assertContains(response, self.quote1.text)
         self.assertContains(response, self.quote2.text)
 
+    def test_quote_list_view_with_query(self):
+        """test quote list view when there is a query passed in"""
+
+        # query is 1, we should find a "Test Quote 1" in the response
+        query = "1"
+        url = reverse("quote-list") + f"?q={query}"
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "quotes/quote_list.html")
+        self.assertContains(response, self.quote1.text)
+
     def test_quote_detail_view(self):
         """test quote detail view"""
 
