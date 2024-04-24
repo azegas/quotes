@@ -31,33 +31,3 @@ jobs:
         run: |
           export SECRET_KEY="${{ secrets.SECRET_KEY }}"
           make test
-
-      - name: Generate coverage.txt
-        run: |
-          coverage report > coverage.txt
-
-      - name: Check if coverage.txt exists
-        run: |
-          if [ -f "coverage.txt" ]; then
-            echo "coverage.txt exists"
-          else
-            echo "coverage.txt does not exist"
-            exit 1
-          fi
-
-      - name: View coverage.txt content
-        run: |
-          cat coverage.txt
-
-
-      # # Check code if code coverage is more than 90%
-      # - name: Check Code Coverage
-      #   run: |
-      #     coverage report
-      #     COVERAGE_THRESHOLD=90
-      #     COVERAGE_PERCENT=$(grep -oP '\d+\.\d+%' coverage.txt | tr -d '%')
-      #     if (( $(echo "$COVERAGE_PERCENT < $COVERAGE_THRESHOLD" | bc -l) )); then
-      #       echo "Code coverage is below $COVERAGE_THRESHOLD% ($COVERAGE_PERCENT%)"
-      #       exit 1
-      #     fi
-      #   shell: bash
