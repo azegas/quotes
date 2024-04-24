@@ -34,18 +34,25 @@ jobs:
 
       - name: Extract coverage percentage
         run: |
-          {
-            "coverage_output=$(coverage report --skip-covered)"
-            "coverage_percentage=$(echo "$coverage_output" | grep -oP '(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$' | grep -oP '\d+(?:\.\d+)?')"
-          } >> $GITHUB_OUTPUT
+          coverage_output=$(coverage report --skip-covered)
+          coverage_percentage=$(echo "$coverage_output" | grep -oP '(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$' | grep -oP '\d+(?:\.\d+)?')
+          echo "::set-env name=coverage_output::$coverage_output"
+          echo "::set-env name=coverage_percentage::$coverage_percentage"
 
-          {
-            echo "### Workflow variables"
-            echo "| Variable   | Value       |"
-            echo "| ---------- | ----------- |"
-            echo "| coverage_output  | $coverage_output  |"
-            echo "| coverage_percentage | $coverage_percentage |"
-          } >> $GITHUB_STEP_SUMMARY
+      # - name: Extract coverage percentage
+      #   run: |
+      #     {
+      #       "coverage_output=$(coverage report --skip-covered)"
+      #       "coverage_percentage=$(echo "$coverage_output" | grep -oP '(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$' | grep -oP '\d+(?:\.\d+)?')"
+      #     } >> $GITHUB_OUTPUT
+
+      #     {
+      #       echo "### Workflow variables"
+      #       echo "| Variable   | Value       |"
+      #       echo "| ---------- | ----------- |"
+      #       echo "| coverage_output  | $coverage_output  |"
+      #       echo "| coverage_percentage | $coverage_percentage |"
+      #     } >> $GITHUB_STEP_SUMMARY
 
       # - name: Display coverage info
       # - run: |
