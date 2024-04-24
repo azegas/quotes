@@ -65,8 +65,9 @@ black:
 test:
 	python manage.py test
 
+# coverage report happens ONLY AFTER coverage run happened, since it generates .coverage file needed for the report
 coverage:
-	coverage run manage.py test & coverage report & coverage html
+	coverage run manage.py test & coverage report -m > coverage.txt
 
 ######################################### DJANGO STUFF ##################################################
 
