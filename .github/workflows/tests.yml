@@ -31,11 +31,11 @@ jobs:
         run: |
           export SECRET_KEY="${{ secrets.SECRET_KEY }}"
           make test
-          coverage report
 
       # Check code if code coverage is more than 90%
       - name: Check Code Coverage
         run: |
+          coverage report
           COVERAGE_THRESHOLD=90
           COVERAGE_PERCENT=$(grep -oP '\d+\.\d+%' coverage.txt | tr -d '%')
           if (( $(echo "$COVERAGE_PERCENT < $COVERAGE_THRESHOLD" | bc -l) )); then
