@@ -69,7 +69,6 @@ test:
 coverage:
 	coverage run manage.py test & coverage report > coverage.txt
 
-
 ######################################### DJANGO STUFF ##################################################
 
 # This target runs Django's test suite. It finds tests in any file named with the pattern test*.py under the current directory and its subdirectories.
