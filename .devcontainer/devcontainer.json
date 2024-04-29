@@ -28,7 +28,13 @@
     // Set *default* container specific settings.json values on container create.
     "settings": {
       "python.defaultInterpreterPath": "/usr/local/bin/python"
-    }
+    },
+    "extensions": [
+      "ms-python.black-formatter",
+      "VisualStudioExptTeam.vscodeintellicode",
+      "ms-python.isort",
+      "ms-python.pylint"
+    ]
   }
 },
 // Use 'forwardPorts' to make a list of ports inside the container available locally.
