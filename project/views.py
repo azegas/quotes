@@ -1,5 +1,6 @@
 """A module for project views. Currently have only index."""
 
+import logging
 import secrets
 
 from django.shortcuts import render
@@ -7,6 +8,8 @@ from django.views import View
 from django.views.generic import RedirectView
 
 from apps.quotes.models import Quote
+
+logger = logging.getLogger(__name__)
 
 
 class Index(View):
@@ -18,6 +21,8 @@ class Index(View):
         """
         What happens when GET method knocks on this view's door.
         """
+
+        logger.info("Index view accessed by user: %s", request.user.username)
 
         show_random_quote_generator = False
 
@@ -44,6 +49,12 @@ class MyRedirectView(RedirectView):
 
     url = "https://www.youtube.com"
 
+    def get(self, request, *args, **kwargs):
+        logger.info(
+            "Redirecting user %s to %s", request.user.username, self.url
+        )
+        return super().get(request, *args, **kwargs)
+
 
 class RandomQuote(View):
     """A view for generating a random quote"""
@@ -56,6 +67,11 @@ class RandomQuote(View):
 
         This info about the quote is later rendered with htmx in a template.
         """
+
+        logger.info(
+            "Random quote has been requested by the user: %s",
+            request.user.username,
+        )
 
         all_quotes = Quote.objects.all()
 

@@ -1,5 +1,7 @@
 """A module for quotes app views."""
 
+import logging
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -8,6 +10,8 @@ from django.views import View
 from ag_mixins import AgObjectRetrievalMixin
 from apps.quotes.forms import QuoteForm
 from apps.quotes.models import Quote
+
+logger = logging.getLogger(__name__)
 
 
 class QuoteListView(View):
@@ -28,6 +32,12 @@ class QuoteListView(View):
         On get request - no parameters are being passed, render all quotes
 
         """
+
+        logger.info(
+            "%s view accessed by user: %s",
+            self.__class__.__name__,
+            request.user.username,
+        )
 
         quotes = Quote.objects.all()
 
@@ -68,7 +78,16 @@ class QuoteDetailView(AgObjectRetrievalMixin, View):
 
     def get(self, request, pk):
         """What happens to this view when get request knocks on the door."""
+
         quote = self.ag_get_object_by_id(Quote, pk)
+
+        logger.info(
+            "%s view of quote (ID: %s) accessed by user: %s",
+            self.__class__.__name__,
+            quote.pk,
+            request.user.username,
+        )
+
         return render(request, self.template_name, {"quote": quote})
 
 
@@ -89,6 +108,13 @@ class QuoteCreateView(View):
 
     def get(self, request):
         """What happens to this view when get request knocks on the door."""
+
+        logger.info(
+            "%s view accessed by user: %s",
+            self.__class__.__name__,
+            request.user.username,
+        )
+
         form = self.form_class()
         return render(request, self.template_name, {"form": form})
 
@@ -112,6 +138,11 @@ class QuoteCreateView(View):
                 text=text, author=author, active=active
             )
             quote.save()
+            logger.info(
+                "Quote (ID: %s) created successfully by user: %s",
+                quote.pk,
+                request.user.username,
+            )
             return HttpResponseRedirect(self.success_url)
 
         return render(request, self.template_name, {"form": form})
@@ -130,6 +161,13 @@ class QuoteDeleteView(AgObjectRetrievalMixin, View):
 
     def get(self, request, pk):
         """What happens to this view when get request knocks on the door."""
+
+        logger.info(
+            "%s view accessed by user: %s",
+            self.__class__.__name__,
+            request.user.username,
+        )
+
         quote = self.ag_get_object_by_id(Quote, pk)
         return render(request, self.template_name, {"object": quote})
 
@@ -141,6 +179,14 @@ class QuoteDeleteView(AgObjectRetrievalMixin, View):
         underscore to indicate that they are intentionally unused
         """
         quote = self.ag_get_object_by_id(Quote, pk)
+
+        logger.info(
+            "Deleting quote '%s' (ID: %s) by user: %s",
+            quote.text,
+            quote.pk,
+            _request.user.username,
+        )
+
         quote.delete()
         return HttpResponseRedirect(self.success_url)
 
@@ -160,6 +206,13 @@ class QuoteUpdateView(AgObjectRetrievalMixin, View):
 
     def get(self, request, pk):
         """What happens to this view when get request knocks on the door."""
+
+        logger.info(
+            "%s view accessed by user: %s",
+            self.__class__.__name__,
+            request.user.username,
+        )
+
         quote = self.ag_get_object_by_id(Quote, pk)
         form = self.form_class(
             initial={
@@ -180,6 +233,11 @@ class QuoteUpdateView(AgObjectRetrievalMixin, View):
             quote.author = form.cleaned_data["author"]
             quote.active = form.cleaned_data["active"]
             quote.save()
+            logger.info(
+                "Quote %s updated successfully by user: %s",
+                quote.pk,
+                request.user.username,
+            )
             return HttpResponseRedirect(self.success_url)
 
         return render(request, self.template_name, {"form": form})
