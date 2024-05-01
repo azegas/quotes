@@ -1,7 +1,7 @@
 // vscode settings for this particular project
 
-{
-    "python.terminal.activateEnvInCurrentTerminal": true,
-    "terminal.integrated.cwd": "C:\\Users\\arvydas\\OneDrive\\Documents\\Work\\projects\\quotes\\quotes",
-    "python.defaultInterpreterPath": "C:\\Users\\arvydas\\Envs\\quotes\\Scripts\\python.exe"
-}
+// {
+//     "python.terminal.activateEnvInCurrentTerminal": true,
+//     "terminal.integrated.cwd": "C:\\Users\\arvydas\\OneDrive\\Documents\\Work\\projects\\quotes\\quotes",
+//     "python.defaultInterpreterPath": "C:\\Users\\arvydas\\Envs\\quotes\\Scripts\\python.exe"
+// }
