@@ -114,13 +114,20 @@ DATABASES = {
     },
 }
 
+# LOGGING START
+
+LOGS_DIR = os.path.join(BASE_DIR, "logs")
+
+if not os.path.exists(LOGS_DIR):
+    os.makedirs(LOGS_DIR)
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
         "rotating_file_handler": {
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": f"{BASE_DIR}/logs/logs.log",
+            "filename": os.path.join(LOGS_DIR, "logs.log"),
             "mode": "a",
             "encoding": "utf-8",
             "formatter": "verbose",
@@ -163,12 +170,12 @@ LOGGING = {
     },
     "formatters": {
         "simple": {
-            "format": "{asctime}: {levelname} {message}",
+            "format": "{asctime}: {levelname} :: {message}",
             "style": "{",
         },
         "verbose": {
-            "format": "{asctime}: {levelname} - {name} {module}.py"
-            "(line {lineno:d}). {message}",
+            "format": "{asctime}: {levelname} - {name} {module}.py "
+            "(line {lineno:d}) :: {message}",
             "style": "{",
         },
         "colored": {
@@ -179,6 +186,7 @@ LOGGING = {
     },
 }
 
+# LOGGING END
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
