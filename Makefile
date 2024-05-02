@@ -50,7 +50,7 @@ run:
 	python manage.py runserver
 
 freeze:
-	pip freeze > requirements.txt
+	pip freeze > .devcontainer/requirements.txt
 
 super:
 	python manage.py createsuperuser
