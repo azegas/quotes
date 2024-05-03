@@ -11,6 +11,8 @@ from project.views import Index, MyRedirectView, RandomQuote
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("accounts/", include("apps.accounts.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
     path("", Index.as_view(), name="index"),
     path("rdt", MyRedirectView.as_view(), name="rdt"),
     path("random-quote", RandomQuote.as_view(), name="random-quote"),
