@@ -1,9 +1,4 @@
-- [Quotes project](#quotes-project)
-  - [The plan for this project](#the-plan-for-this-project)
-    - [Phase 1: Foundation](#phase-1-foundation)
-    - [Phase 2: Intermediate Challenges](#phase-2-intermediate-challenges)
-    - [Phase 3: Advanced Challenges](#phase-3-advanced-challenges)
-    - [Phase 4: Stretch Goals](#phase-4-stretch-goals)
+# **Decided to make an api for this instead, to use in magic mirror. New experience + something tangible.**
 
 ![badge](https://github.com/azegas/quotes/actions/workflows/django.yml/badge.svg)
 
