@@ -1,0 +1,11 @@
+Some tasks are at - https://github.com/azegas/quotes/issues
+
+* Phase 1
+** Implement allauth and good practices from django_starter
+** Remove logging for now
+** Build a simple bootstrap/bulma ui
+** Create a browsable api
+** Store all the quotes
+** Host the app on railway
+** be able to make api calls from anywhere
+* Phase 2

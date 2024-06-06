@@ -5,7 +5,6 @@ import secrets
 
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import RedirectView
 
 from apps.quotes.models import Quote
 
@@ -40,20 +39,6 @@ class Index(View):
                 "show_random_quote_generator": show_random_quote_generator,
             },
         )
-
-
-class MyRedirectView(RedirectView):
-    """
-    Does this and that.
-    """
-
-    url = "https://www.youtube.com"
-
-    def get(self, request, *args, **kwargs):
-        logger.info(
-            "Redirecting user %s to %s", request.user.username, self.url
-        )
-        return super().get(request, *args, **kwargs)
 
 
 class RandomQuote(View):
