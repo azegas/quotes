@@ -1,11 +1,16 @@
 Some tasks are at - https://github.com/azegas/quotes/issues
 
 * Phase 1
-** Implement allauth and good practices from django_starter
-** Remove logging for now
-** Build a simple bootstrap/bulma ui
+** DONE Implement allauth and good practices from django_starter
+CLOSED: [2024-06-07 Fri 04:43]
+** DONE Remove logging for now
+CLOSED: [2024-06-06 Thu 21:49]
+** DONE Build a simple bootstrap/bulma ui
+CLOSED: [2024-06-07 Fri 04:43]
 ** Create a browsable api
-** Store all the quotes
+** Store literally all the quotes from various docs, have them in one place, in a database [0/2]
+- [ ] Decide if the quote/author model structure is sufficient
+- [ ] Format them nicely in a document, txt or smth, then with python convert to a list that can be imported to the db
 ** Host the app on railway
-** be able to make api calls from anywhere
+** make an api call from anywhere, from insomnia, postman, phone, etc
 * Phase 2
