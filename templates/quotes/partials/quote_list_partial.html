@@ -1,11 +1,11 @@
 {% for quote in object_list %}
 
 <li>
-    <a href="{% url "quote-detail" pk=quote.id %}">"{{ quote.text }}"</a> -
+    {{quote.date_created|date:"Y-m-d"}} - <a href="{% url "quote-detail" pk=quote.id %}">"{{ quote.text }}"</a> -
     {% if quote.author %}
-        <a href="{% url "author-detail" pk=quote.author.id %}">{{ quote.author.name }}</a>
+    <a href="{% url "author-detail" pk=quote.author.id %}">{{ quote.author.name }}</a>
     {% else %}
-        Unknown Author
+	Unknown Author
     {% endif %}
 </li>
 
