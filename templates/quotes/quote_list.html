@@ -8,16 +8,18 @@
 <form>
     {% csrf_token %}
     <input type="search"
-        name="q" placeholder="Search..."
-        hx-post="{% url 'quote-list' %}"
-        hx-trigger="input changed delay:500ms, search"
-        hx-target="#quote-list" >
+	   name="q" placeholder="Search..."
+	   hx-post="{% url 'quote-list' %}"
+	   hx-trigger="input changed delay:500ms, search"
+	   hx-target="#quote-list" >
 </form>
 
 <ul id="quote-list">
     {% include "quotes/partials/quote_list_partial.html" %}
 </ul>
 
+{% if user.is_authenticated and user.is_superuser %}
 <a href="{% url "quote-create" %}">Create New</a>
+{% endif %}
 
 {% endblock list %}

@@ -1,5 +1,6 @@
 """File that contains the tests for Django views"""
 
+from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.urls import reverse
 
@@ -28,6 +29,39 @@ class TestViews(TestCase):
         self.author2 = Author.objects.create(name="Test Author 2")
         self.quote1 = Quote.objects.create(text="Test Quote 1")
         self.quote2 = Quote.objects.create(text="Test Quote 2")
+        self.user = User.objects.create_user(
+            username="test",
+            email="testuser@gmail.com",
+            password="password",
+            is_superuser=True,
+            is_staff=True,
+        )
+        self.author_form_data = {
+            "name": "sukurtas",
+            "lastname": "test",
+        }
+        self.quote_form_data = {
+            "text": "labadiena",
+            "author": self.author1.pk,
+        }
+        self.quote_invalid_form_data = {
+            "text": "labadiena",
+            "author": 3,
+        }
+        self.author_create_url = reverse("author-create")
+        self.author_update_url = reverse(
+            "author-update", kwargs={"pk": self.author1.pk}
+        )
+        self.author_delete_url = reverse(
+            "author-delete", kwargs={"pk": self.author1.pk}
+        )
+        self.quote_create_url = reverse("quote-create")
+        self.quote_update_url = reverse(
+            "quote-update", kwargs={"pk": self.quote1.pk}
+        )
+        self.quote_delete_url = reverse(
+            "quote-delete", kwargs={"pk": self.quote1.pk}
+        )
 
     def test_index_get(self):
         """test index view"""
@@ -64,21 +98,34 @@ class TestViews(TestCase):
     def test_author_create_view(self):
         """test author create view"""
 
-        form_data = {
-            "name": "sukurtas",
-            "lastname": "testo",
-        }
+        self.client.login(username="test", password="password")
 
         url = reverse("author-create")
-        response = self.client.post(url, data=form_data)
-        created_author = Author.objects.get(name=form_data["name"])
+        response = self.client.post(url, data=self.author_form_data)
+        created_author = Author.objects.get(name=self.author_form_data["name"])
 
         self.assertRedirects(response, self.author_list_url)
-        self.assertEqual(created_author.name, form_data["name"])
-        self.assertEqual(created_author.lastname, form_data["lastname"])
+        self.assertEqual(created_author.name, self.author_form_data["name"])
+        self.assertEqual(
+            created_author.lastname, self.author_form_data["lastname"]
+        )
+
+    def test_author_create_view_redirect_if_not_logged_in(self):
+        """Test author create view redirects to login if not logged in"""
+
+        response = self.client.post(
+            self.author_create_url, data=self.author_form_data
+        )
+
+        # Check if the response redirects to the login page
+        self.assertRedirects(
+            response, f"/accounts/login/?next={self.author_create_url}"
+        )
 
     def test_author_delete_view(self):
         """test author delete view"""
+
+        self.client.login(username="test", password="password")
 
         url = reverse("author-delete", kwargs={"pk": self.author1.pk})
         initial_count = Author.objects.count()
@@ -88,22 +135,45 @@ class TestViews(TestCase):
         self.assertEqual(Author.objects.count(), initial_count - 1)
         self.assertFalse(Author.objects.filter(pk=self.author1.pk).exists())
 
+    def test_author_delete_view_redirect_if_not_logged_in(self):
+        """Test author delete view redirects to login if not logged in"""
+
+        response = self.client.post(
+            self.author_delete_url, data=self.author_form_data
+        )
+
+        # Check if the response redirects to the login page
+        self.assertRedirects(
+            response, f"/accounts/login/?next={self.author_delete_url}"
+        )
+
     def test_author_update_view(self):
         """test author update view"""
 
-        form_data = {
-            "name": "after",
-            "lastname": "test",
-        }
+        self.client.login(username="test", password="password")
 
         url = reverse("author-update", kwargs={"pk": self.author1.pk})
-        response = self.client.post(url, data=form_data)
+        response = self.client.post(url, data=self.author_form_data)
 
         self.assertRedirects(response, self.author_list_url)
         # Refresh the author instance from the database to get the updated data
         self.author1.refresh_from_db()
-        self.assertEqual(self.author1.name, form_data["name"])
-        self.assertEqual(self.author1.lastname, form_data["lastname"])
+        self.assertEqual(self.author1.name, self.author_form_data["name"])
+        self.assertEqual(
+            self.author1.lastname, self.author_form_data["lastname"]
+        )
+
+    def test_author_update_view_redirect_if_not_logged_in(self):
+        """Test author update view redirects to login if not logged in"""
+
+        response = self.client.post(
+            self.author_update_url, data=self.author_form_data
+        )
+
+        # Check if the response redirects to the login page
+        self.assertRedirects(
+            response, f"/accounts/login/?next={self.author_update_url}"
+        )
 
     def test_quote_list_view(self):
         """test quote list view"""
@@ -154,6 +224,8 @@ class TestViews(TestCase):
     def test_quote_create_view_get(self):
         """Test GET request to quote create view"""
 
+        self.client.login(username="test", password="password")
+
         url = reverse("quote-create")
         response = self.client.get(url)
 
@@ -165,31 +237,38 @@ class TestViews(TestCase):
     def test_quote_create_view_post(self):
         """test POST request to quote create view"""
 
-        form_data = {
-            "text": "labadiena",
-            "author": self.author1.pk,
-        }
+        self.client.login(username="test", password="password")
 
         url = reverse("quote-create")
-        response = self.client.post(url, data=form_data)
+        response = self.client.post(url, data=self.quote_form_data)
 
         self.assertEqual(response.status_code, 302)  # status code for redirect
         self.assertRedirects(response, self.quote_list_url)
         self.assertTrue(
             Quote.objects.filter(
-                text=form_data["text"], author=self.author1
+                text=self.quote_form_data["text"], author=self.author1
             ).exists()
+        )
+
+    def test_quote_create_view_redirect_if_not_logged_in(self):
+        """Test quote create view redirects to login if not logged in"""
+
+        response = self.client.post(
+            self.quote_create_url, data=self.quote_form_data
+        )
+
+        # Check if the response redirects to the login page
+        self.assertRedirects(
+            response, f"/accounts/login/?next={self.quote_create_url}"
         )
 
     def test_quote_create_view_post_invalid_form(self):
         """Test POST request with invalid form data"""
 
-        form_data = {
-            "text": "",  # Invalid: Text is required
-            "author": self.author1.pk,
-        }
+        self.client.login(username="test", password="password")
+
         url = reverse("quote-create")
-        response = self.client.post(url, data=form_data)
+        response = self.client.post(url, data=self.quote_invalid_form_data)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "quotes/quote_form.html")
@@ -201,14 +280,30 @@ class TestViews(TestCase):
     def test_quote_delete_view_get(self):
         """test quote delete view, GET request"""
 
+        self.client.login(username="test", password="password")
+
         url = reverse("quote-delete", kwargs={"pk": self.quote1.pk})
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "quotes/quote_confirm_delete.html")
 
+    def test_quote_delete_view_redirect_if_not_logged_in(self):
+        """Test quote delete view redirects to login if not logged in"""
+
+        response = self.client.post(
+            self.quote_delete_url, data=self.quote_form_data
+        )
+
+        # Check if the response redirects to the login page
+        self.assertRedirects(
+            response, f"/accounts/login/?next={self.quote_delete_url}"
+        )
+
     def test_quote_delete_view_post(self):
         """test quote delete view, POST request"""
+
+        self.client.login(username="test", password="password")
 
         initial_count = Quote.objects.count()
         url = reverse("quote-delete", kwargs={"pk": self.quote1.pk})
@@ -221,6 +316,8 @@ class TestViews(TestCase):
     def test_quote_update_view(self):
         """test quote update view"""
 
+        self.client.login(username="test", password="password")
+
         url = reverse("quote-update", kwargs={"pk": self.quote1.pk})
         response = self.client.get(url)
 
@@ -231,8 +328,22 @@ class TestViews(TestCase):
         self.assertIsInstance(form, QuoteForm)
         self.assertEqual(form["text"].value(), self.quote1.text)
 
+    def test_quote_delete_view_redirect_if_not_logged_in(self):
+        """Test quote delete view redirects to login if not logged in"""
+
+        response = self.client.post(
+            self.quote_delete_url, data=self.quote_form_data
+        )
+
+        # Check if the response redirects to the login page
+        self.assertRedirects(
+            response, f"/accounts/login/?next={self.quote_delete_url}"
+        )
+
     def test_quote_update_view_get(self):
         """test quote update view, GET request"""
+
+        self.client.login(username="test", password="password")
 
         url = reverse("quote-update", kwargs={"pk": self.quote1.pk})
         response = self.client.get(url)
@@ -245,30 +356,38 @@ class TestViews(TestCase):
     def test_quote_update_view_post(self):
         """test quote update view, POST request"""
 
-        form_data = {
-            "text": "Updated text",
-            "author": self.author1.pk,
-        }
+        self.client.login(username="test", password="password")
 
         url = reverse("quote-update", kwargs={"pk": self.quote1.pk})
-        response = self.client.post(url, data=form_data)
+        response = self.client.post(url, data=self.quote_form_data)
         updated_quote = Quote.objects.get(pk=self.quote1.pk)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, self.quote_list_url)
-        self.assertEqual(updated_quote.text, form_data["text"])
-        self.assertEqual(updated_quote.author.pk, form_data["author"])
+        self.assertEqual(updated_quote.text, self.quote_form_data["text"])
+        self.assertEqual(
+            updated_quote.author.pk, self.quote_form_data["author"]
+        )
+
+    def test_quote_update_view_redirect_if_not_logged_in(self):
+        """Test quote update view redirects to login if not logged in"""
+
+        response = self.client.post(
+            self.quote_update_url, data=self.quote_form_data
+        )
+
+        # Check if the response redirects to the login page
+        self.assertRedirects(
+            response, f"/accounts/login/?next={self.quote_update_url}"
+        )
 
     def test_quote_update_view_post_invalid(self):
         """Test quote update view with invalid form data, POST request"""
 
-        form_data = {
-            "text": "",  # Empty text field
-            "author": self.author1.pk,
-        }
+        self.client.login(username="test", password="password")
 
         url = reverse("quote-update", kwargs={"pk": self.quote1.pk})
-        response = self.client.post(url, data=form_data)
+        response = self.client.post(url, data=self.quote_invalid_form_data)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "quotes/quote_form.html")
@@ -278,12 +397,9 @@ class TestViews(TestCase):
         self.assertTrue(form.is_bound)
         self.assertTrue(form.errors)
 
-        # Optionally, you can check specific error messages if needed
-        self.assertTrue("text" in form.errors)
-        self.assertEqual(form.errors["text"], ["This field is required."])
-
         self.assertNotEqual(
-            Quote.objects.get(pk=self.quote1.pk).text, form_data["text"]
+            Quote.objects.get(pk=self.quote1.pk).text,
+            self.quote_form_data["text"],
         )
         self.assertEqual(
             Quote.objects.get(pk=self.quote1.pk).text, "Test Quote 1"

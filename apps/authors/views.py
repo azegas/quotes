@@ -1,5 +1,7 @@
 """A module for author app views."""
 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
@@ -26,7 +28,7 @@ class AuthorDetailView(DetailView):
 # there for a reason
 # does some additional magic for us, like saving to the db
 # YT - "Learn Django Class Based Views - CreateView - Theory and Examples"
-class AuthorCreateView(CreateView):
+class AuthorCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """Generic CBV view for author create page"""
 
     model = Author
@@ -37,19 +39,31 @@ class AuthorCreateView(CreateView):
     success_url = reverse_lazy("author-list")
     template_name = "authors/author_form.html"  # default
 
+    def test_func(self):
+        """Checks if the user is a superuser."""
+        return self.request.user.is_superuser
 
-class AuthorDeleteView(DeleteView):
+
+class AuthorDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Generic CBV view for author delete page"""
 
     model = Author
     success_url = reverse_lazy("author-list")
     template_name = "authors/author_confirm_delete.html"  # default
 
+    def test_func(self):
+        """Checks if the user is a superuser."""
+        return self.request.user.is_superuser
 
-class AuthorUpdateView(UpdateView):
+
+class AuthorUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Generic CBV view for author update page"""
 
     model = Author
     fields = "__all__"
     success_url = reverse_lazy("author-list")
     template_name = "authors/author_form.html"  # default
+
+    def test_func(self):
+        """Checks if the user is a superuser."""
+        return self.request.user.is_superuser

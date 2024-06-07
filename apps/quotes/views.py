@@ -2,6 +2,7 @@
 
 import logging
 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -10,6 +11,7 @@ from django.views import View
 from ag_mixins import AgObjectRetrievalMixin
 from apps.quotes.forms import QuoteForm
 from apps.quotes.models import Quote
+
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +93,7 @@ class QuoteDetailView(AgObjectRetrievalMixin, View):
         return render(request, self.template_name, {"quote": quote})
 
 
-class QuoteCreateView(View):
+class QuoteCreateView(LoginRequiredMixin, UserPassesTestMixin, View):
     """
     gCVB example:
 
@@ -105,6 +107,10 @@ class QuoteCreateView(View):
     form_class = QuoteForm
     template_name = "quotes/quote_form.html"
     success_url = reverse_lazy("quote-list")
+
+    def test_func(self):
+        """Checks if the user is a superuser."""
+        return self.request.user.is_superuser
 
     def get(self, request):
         """What happens to this view when get request knocks on the door."""
@@ -148,7 +154,9 @@ class QuoteCreateView(View):
         return render(request, self.template_name, {"form": form})
 
 
-class QuoteDeleteView(AgObjectRetrievalMixin, View):
+class QuoteDeleteView(
+    LoginRequiredMixin, UserPassesTestMixin, AgObjectRetrievalMixin, View
+):
     """
     class QuoteDeleteView(DeleteView):
         model = Quote
@@ -190,8 +198,14 @@ class QuoteDeleteView(AgObjectRetrievalMixin, View):
         quote.delete()
         return HttpResponseRedirect(self.success_url)
 
+    def test_func(self):
+        """Checks if the user is a superuser."""
+        return self.request.user.is_superuser
 
-class QuoteUpdateView(AgObjectRetrievalMixin, View):
+
+class QuoteUpdateView(
+    LoginRequiredMixin, UserPassesTestMixin, AgObjectRetrievalMixin, View
+):
     """
     class QuoteUpdateView(UpdateView):
         model = Quote
@@ -203,6 +217,10 @@ class QuoteUpdateView(AgObjectRetrievalMixin, View):
     form_class = QuoteForm
     template_name = "quotes/quote_form.html"
     success_url = reverse_lazy("quote-list")
+
+    def test_func(self):
+        """Checks if the user is a superuser."""
+        return self.request.user.is_superuser
 
     def get(self, request, pk):
         """What happens to this view when get request knocks on the door."""

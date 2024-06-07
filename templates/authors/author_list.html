@@ -8,9 +8,11 @@
     <li><a href="{% url 'author-detail' pk=author.id %}">{{ author.name }} {{ author.lastname }}</a></li>
 {% empty %}
     <li>No authors yet.</li>
-{% endfor %}
+    {% endfor %}
 </ul>
 
+{% if user.is_authenticated and user.is_superuser %}
 <a href="{% url "author-create" %}">Create New</a>
+{% endif %}
 
 {% endblock list %}

@@ -15,12 +15,12 @@ urlpatterns = [
     path("detail/<int:pk>", QuoteDetailView.as_view(), name="quote-detail"),
     path("create/", QuoteCreateView.as_view(), name="quote-create"),
     path(
-        "detail/<int:pk>/delete",
+        "delete/<int:pk>",
         QuoteDeleteView.as_view(),
         name="quote-delete",
     ),
     path(
-        "detail/<int:pk>/update",
+        "update/<int:pk>",
         QuoteUpdateView.as_view(),
         name="quote-update",
     ),
