@@ -2,13 +2,32 @@
 
 {% block detail %}
 
+<h2>Author Details</h2>
+
 <p>Name - {{ author.name }}</p>
 <p>Last name - {{ author.lastname }}</p>
-
 
 {% if user.is_authenticated and user.is_superuser %}
 <a href="{% url "author-update" pk=author.id %}">Update</a>
 <a href="{% url "author-delete" pk=author.id %}">Delete</a>
 {% endif %}
+
+<h2>Author's Quotes</h2>
+
+{% for quote in quotes %}
+
+<li>
+    <a href="{% url "quote-detail" pk=quote.id %}">"{{ quote.text }}"</a> -
+    {% if quote.author %}
+    <a href="{% url "author-detail" pk=quote.author.id %}">{{ quote.author.name }}</a>
+    {% else %}
+    Unknown Author
+    {% endif %}
+</li>
+
+{% empty %}
+<li>No quotes yet.</li>
+{% endfor %}
+
 
 {% endblock detail %}

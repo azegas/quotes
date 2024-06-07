@@ -13,6 +13,7 @@ class Quote(models.Model):
         Author,
         null=True,  # setting this so on_delete (below) works
         on_delete=models.SET_NULL,  # on delete - set the value to NULL
+        related_name="quotes",  # this allows to see all quotes from the author self.object.quotes.all()
     )
     active = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)

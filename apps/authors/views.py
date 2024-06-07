@@ -23,6 +23,12 @@ class AuthorDetailView(DetailView):
     model = Author
     template_name = "authors/author_detail.html"  # default
 
+    def get_context_data(self, **kwargs):
+        """Add the author's quotes to the context"""
+        context = super().get_context_data(**kwargs)
+        context["quotes"] = self.object.quotes.all()
+        return context
+
 
 # CreateView is very similar to FormView, but use CreateView anyway, it must be
 # there for a reason
