@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<div class="centriukas">
+
 <p>Pick a random quote from {{ all_quotes_count }} quotes in the database!</p>
 
 <form hx-get="{% url 'random-quote' %}" hx-target="#random">
@@ -13,5 +15,7 @@
     {% include "project/partials/random_quote.html" %}
 </div>
 {% endif %}
+
+</div>
 
 {% endblock content %}
