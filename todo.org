@@ -7,10 +7,14 @@ CLOSED: [2024-06-07 Fri 04:43]
 CLOSED: [2024-06-06 Thu 21:49]
 ** DONE Build a simple bootstrap/bulma ui
 CLOSED: [2024-06-07 Fri 04:43]
+** Store literally all the quotes from various docs, have them in one place, in a database [2/3]
+- [X] Decide if the quote/author model structure is sufficient
+- [X] Format them nicely in a document, txt or smth, then with python convert to a list that can be imported to the db
+- [ ] finish up with oneliners doku
 ** Create a browsable api
-** Store literally all the quotes from various docs, have them in one place, in a database [0/2]
-- [ ] Decide if the quote/author model structure is sufficient
-- [ ] Format them nicely in a document, txt or smth, then with python convert to a list that can be imported to the db
 ** Host the app on railway
 ** make an api call from anywhere, from insomnia, postman, phone, etc
 * Phase 2
+** idek google translate, kad zmones galetu quotes ziureti sau megiama kalba
+** Paimk visus ilgus notes ir juos taip pat sudek. Duok sau kasdien kitoki paskaityti. Daug geros info be vietos, nematoma
+ Decide what to do with longer quotes
