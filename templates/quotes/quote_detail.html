@@ -3,7 +3,10 @@
 {% block detail %}
 
 <p>Text - {{ quote.text }}</p>
-<p>Author - <a href="{% url 'author-detail' pk=quote.author.id %}">{{ quote.author }}</a></p>
+
+
+<p>Author - {% if quote.author %}<a href="{% url 'author-detail' pk=quote.author.id %}">{{ quote.author }}{% else %}Author Unknown{% endif %}</a></p>
+
 <p>Date created - {{ quote.date_created|date:"Y-m-d" }}</p>
 
 {% if user.is_authenticated and user.is_superuser %}
