@@ -7,10 +7,11 @@ CLOSED: [2024-06-07 Fri 04:43]
 CLOSED: [2024-06-06 Thu 21:49]
 ** DONE Build a simple bootstrap/bulma ui
 CLOSED: [2024-06-07 Fri 04:43]
-** Store literally all the quotes from various docs, have them in one place, in a database [2/3]
+** Store literally all the quotes from various docs, have them in one place, in a database [2/4]
 - [X] Decide if the quote/author model structure is sufficient
 - [X] Format them nicely in a document, txt or smth, then with python convert to a list that can be imported to the db
 - [ ] finish up with oneliners doku
+- [ ] prirasyk kalba tu quotes, kad galetum filtruoti
 ** Create a browsable api
 ** Host the app on railway
 ** make an api call from anywhere, from insomnia, postman, phone, etc
@@ -18,3 +19,9 @@ CLOSED: [2024-06-07 Fri 04:43]
 ** idek google translate, kad zmones galetu quotes ziureti sau megiama kalba
 ** Paimk visus ilgus notes ir juos taip pat sudek. Duok sau kasdien kitoki paskaityti. Daug geros info be vietos, nematoma
  Decide what to do with longer quotes
+** Sita dek i frontpage
+    {
+        "text": "Words can be like X-rays if you use them properly -- they’ll go through anything. You read and you’re pierced.",
+        "author": "Aldous Huxley",
+        "date_created": ""
+    },
